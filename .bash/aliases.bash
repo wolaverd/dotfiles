@@ -3,11 +3,11 @@ alias rb="source ~/.bashrc"
 alias u='cd ../; pwd; ls -lhGgo'
 alias d='cd -; ls -lhGgo'
 
-alias ls='ls --group-directories-first --color'
-alias ll='ls -lhF'
-alias la='ls -lha'
+alias ls='ls -F --group-directories-first'
+alias ll='ls -AlhFt --color=never'
+alias la='ls -lhA'
 alias lt='ls -lhtr'
-alias lta='ls -lhatr'
+alias lta='ls -lhAtr'
 
 alias cls='clear'
 alias xx='exit'

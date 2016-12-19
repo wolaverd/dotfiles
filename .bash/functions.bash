@@ -9,6 +9,8 @@ Start() { sudo systemctl start "$@"; sudo systemctl status "$@"; }
 Stop() { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
 Restart() { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
 
+Enable() { sudo systemctl start "$@"; sudo systemctl enable "$@"; }
+
 ustart() { systemctl --user start "$@"; }
 ustop() { systemctl --user stop "$@"; }
 ustatus() { systemctl --user status "$@"; }
@@ -16,6 +18,8 @@ uenabled() { systemctl --user enable "$@"; }
 udisabled() { systemctl --user disable "$@"; }
 
 _state() { systemctl --state "$@"; }
+
+TimeStamp="$(date -u +%Y-%m-%d-%H%M)" 
 
 
 upg() {
