@@ -1,5 +1,6 @@
 alias eb="vim ~/.bashrc"
 alias rb="source ~/.bashrc"
+
 alias u='cd ../; pwd; ls -lhGgo'
 alias d='cd -; ls -lhGgo'
 
@@ -12,7 +13,7 @@ alias lta='ls -lhAtr'
 alias cls='clear'
 alias xx='exit'
 
-alias cp='cp -a'
+alias cpa='cp -a'
 alias ssp='sudo ss -tulpn'
 
 alias v='vim'
@@ -28,3 +29,6 @@ alias gpush='git push -u origin master'
 alias nmif='sudo nmap --iflist'
 
 alias upgpip='python -m pip install --upgrade pip'
+
+alias dfind='find ./ -maxdepth 1 -type d \! -regex '^\.\/$''
+alias ffind='find . -maxdepth 1 -type f'

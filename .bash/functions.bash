@@ -19,9 +19,6 @@ udisabled() { systemctl --user disable "$@"; }
 
 _state() { systemctl --state "$@"; }
 
-TimeStamp="$(date -u +%Y-%m-%d-%H%M)" 
-
-
 upg() {
 	if [[ -f /etc/debian_version ]]; then
 		sudo apt-get update -q && sudo apt-get upgrade -q
@@ -43,27 +40,24 @@ secmode() {
 	done
 }
 
-lefix() {
-	for i in "$@"; do
-		sed -i 's/\r//g' "$i"
-	done
-}
+lefix() { sed -i 's/\r//g' "$i"; }
 
-mkcd() {
-	mkdir -pv "$1" && cd "$1"
-}
+mkcd() { mkdir -pv "$1" && cd "$1"; }
 
 lsgit() { find "$1" -type d -regex '.+/\.git$' -print; }
 
 gitpush() {
-	if [[ -z $1 ]]; then
-		echo 'Commit message: '; read cm || return 1
-	else
-		local cm="$1"
-	fi
-		git add ./*
-		git commit -m "$cm" || return 1
-		git push -u origin master
+	echo 'Commit message: '; read cm || return 1
+
+	git add ./*
+	git commit -m "$cm" || return 1
+	git push -u origin master
+}
+
+mkgitignore() {
+	find ./ -maxdepth 1 -type d \! -regex '^\.\/$'
+	echo ''
+	find ./ -maxdepth 1 -type f
 }
 
 dbg() { printf "DEBUG: \$_ == %q\n" "$_" >&2; }
@@ -100,5 +94,5 @@ kill_agents() {
 }
 
 net_start() {
-	sudo netctl start 'wlo1-Casuals_Plebs' &
+	sudo netctl start 'wlo1-Casuals_Plebs'
 }

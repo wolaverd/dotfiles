@@ -1,8 +1,7 @@
-[[ -f ~/.bash/functions.bash ]] && . ~/.bash/functions.bash
-[[ -f ~/.bash/aliases.bash ]] && . ~/.bash/aliases.bash
-[[ -f ~/.bash/env.bash ]] && . ~/.bash/env.bash
-[[ -f ~/.bash/prompt.bash ]] && . ~/.bash/prompt.bash
 [[ -f /etc/bash_completion ]] && . /etc/bash_completion
+for include_file in ~/.bash/*; do
+	[[ -f $include_file ]] && . "$include_file"
+done
 
 if [[ -f ~/bin/start-ssh-agent.sh ]]; then
 	agent_pid="$(ps aux | awk '$8 ~ /ssh\-agent$/ {print $1}')"
@@ -17,4 +16,3 @@ if [[ -f ~/bin/start-ssh-agent.sh ]]; then
 	fi
 	unset agent_pid
 fi
-
