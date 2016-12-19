@@ -10,14 +10,15 @@ export posh="${chome}/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.p
 # Cygwin variables
 export etc='/etc/defaults/etc'
 
-shopt -s histappend
-HISTSIZE=10000
-HISTFILESIZE=10000
-HISTCONTROL=ignoreboth
-
+# Bash
 set -o vi
 
 shopt -s checkwinsize
 shopt -s cdspell
 shopt -s globstar
 shopt -s extglob dotglob nullglob
+shopt -s histappend
+
+HISTSIZE=10000
+HISTFILESIZE=10000
+HISTCONTROL=ignoreboth

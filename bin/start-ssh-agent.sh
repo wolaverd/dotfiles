@@ -1,9 +1,9 @@
-SSH_ENV_FILE=${HOME}/.ssh/environment
+ssh_environment=${HOME}/.ssh/environment
 
 function start_agent {
-	ssh-agent | sed 's/^echo/#echo/' > "$SSH_ENV_FILE"
-	[[ -x $SSH_ENV_FILE ]] && chmod 600 "$SSH_ENV_FILE"
-	source "$SSH_ENV_FILE" > /dev/null
+	ssh-agent | sed 's/^echo/#echo/' > "$ssh_environment"
+	[[ -x $ssh_environment ]] && chmod 600 "$ssh_environment"
+	source "$ssh_environment" > /dev/null
 	for i in ~/.ssh/*; do
 		case "$i" in
 			*keys|*.pub|*config*|*known_hosts*|*environment*) continue;;
@@ -12,8 +12,8 @@ function start_agent {
 	done
 }
 
-if [[ -f $SSH_ENV_FILE ]]; then
-	source "$SSH_ENV_FILE" > /dev/null
+if [[ -f $ssh_environment ]]; then
+	source "$ssh_environment" > /dev/null
 	ps -p "$SSH_AGENT_PID" > /dev/null || start_agent;
 else
 	start_agent;
