@@ -2,13 +2,11 @@ export TERM='screen-256color'
 export EDITOR='vim'
 
 # Windows variables
-export chome='/cygdrive/c/Users/neeto'
-export repos="${chome}/repos"
-export cprojects="${chome}/projects"
-export posh="${chome}/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
-
-# Cygwin variables
-export etc='/etc/defaults/etc'
+if [[ -e '/cygdrive/c/Users/neeto' ]]; then
+	export chome='/cygdrive/c/Users/neeto'
+	export cprojects="${chome}/projects"
+	export posh="${chome}/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
+fi
 
 # Bash
 set -o vi

@@ -7,14 +7,12 @@ function upg {
 	fi
 }
 
-
 # Git
 function gitpush {
 	git add ./*
 	git commit
 	git push -u origin master
 }
-
 
 function get-gitignore {
 	echo '# Directories ####'
@@ -24,12 +22,10 @@ function get-gitignore {
 	echo ''
 }
 
-
 # Network
 function net_start {
 	sudo netctl start "$1" && systemctl status "netctl@${1}.service"
 }
-
 
 # Systemd
 function start { sudo systemctl start "$1"; }
@@ -50,7 +46,7 @@ function udisabled { systemctl --user disable "$@"; }
 
 function _state { systemctl --state "$@"; }
 
-####
+# Misc
 function lefix { sed -i 's/\r//g' "$i"; }
 function mkcd { mkdir -pv "$1" && cd "$1"; }
 function dbg { printf "DEBUG: \$_ == %q\n" "$_" >&2; }

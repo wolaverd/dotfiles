@@ -1,14 +1,8 @@
 alias eb="vim ~/.bashrc"
 alias rb="source ~/.bashrc"
 
-alias u='cd ../; pwd; ls -lhGgo'
-alias d='cd -; ls -lhGgo'
-
 alias ls='ls -F --group-directories-first'
 alias ll='ls -AlhFt --color=never'
-alias la='ls -lhA'
-alias lt='ls -lhtr'
-alias lta='ls -lhAtr'
 
 alias dfind='find ./ -maxdepth 1 -type d \! -regex '^\.\/$''
 alias ffind='find ./ -maxdepth 1 -type f'
@@ -24,9 +18,11 @@ alias v='vim'
 alias sctl='systemctl'
 alias sctlfi='systemctl list-unit-files'
 alias jctl='journalctl'
+alias off='systemctl poweroff'
+alias reboots='systemctl restart'
 
-alias gs='git status -v'
+alias gs='git status'
 alias ga='git add ./*'
 alias gpush='git push -u origin master'
 
-alias upgpip='python -m pip install --upgrade pip'
+alias pupg='python -m pip install --upgrade pip'
