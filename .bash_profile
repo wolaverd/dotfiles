@@ -1,3 +1,7 @@
-[[ -f ${HOME}/.bashrc ]] && source "${HOME}/.bashrc"
+if [[ -f ${HOME}/.bashrc ]]; then
+	source "${HOME}/.bashrc"
+fi
 
-[[ -d ${HOME}/bin ]] && PATH="${HOME}/bin:${PATH}"
+if [[ -d ${HOME}/bin ]]; then
+	PATH="${HOME}/bin:${PATH}"
+fi

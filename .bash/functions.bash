@@ -14,12 +14,10 @@ function gitpush {
 	git push -u origin master
 }
 
-function get-gitignore {
-	echo '# Directories ####'
-	find ./ -maxdepth 1 -type d \! -regex '^\.\/$'
-	echo -e '\n# Files ####'
-	find ./ -maxdepth 1 -type f
-	echo ''
+function getfilelist {
+	{ find ./ -maxdepth 1 -type d \! -regex '^\.\/$'
+	  find ./ -maxdepth 1 -type f
+	} | sed 's/^\.\///g'
 }
 
 # Network
@@ -43,7 +41,6 @@ function ustop { systemctl --user stop "$@"; }
 function ustatus { systemctl --user status "$@"; }
 function uenabled { systemctl --user enable "$@"; }
 function udisabled { systemctl --user disable "$@"; }
-
 function _state { systemctl --state "$@"; }
 
 # Misc
