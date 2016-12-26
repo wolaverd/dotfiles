@@ -3,9 +3,8 @@ if [[ -f /etc/bash_completion ]]; then
 fi
 
 for include in ~/.bash/*; do
-	if [[ -f $include ]]; then
-		source "$include"
-	fi
+	source "$include"
 done
 
 source ~/bin/start-ssh-agent.sh
+

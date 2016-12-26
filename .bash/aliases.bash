@@ -30,5 +30,7 @@ alias gs='git status'
 alias ga='git add ./*'
 alias gpush='git push -u origin master'
 
+alias glog='git log --graph --oneline --decorate --all'
+
 # Python
 alias pupg='python -m pip install --upgrade pip'

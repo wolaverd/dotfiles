@@ -8,6 +8,8 @@ function upg {
 }
 
 # Git
+function clone_repo { git clone git@glab:wolaver/${1}.git; }
+
 function gitpush {
 	git add ./*
 	git commit

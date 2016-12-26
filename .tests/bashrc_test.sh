@@ -1,6 +1,4 @@
-if [[ -f ~/bash_test_functions.sh ]]; then
-	source './bash_test_functions.sh'
-fi
+source './bash_test_functions.sh'
 
 
 if [[ -f /etc/bash_completion ]]; then

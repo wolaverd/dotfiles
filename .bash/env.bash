@@ -7,6 +7,9 @@ if [[ -e '/cygdrive/c/Users/neeto' ]]; then
 	export posh="${chome}/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
 fi
 
+# Moutpoints
+u_mountpoint='/run/media/neeto'
+
 # Bash
 set -o vi
 
@@ -19,3 +22,7 @@ shopt -s histappend
 HISTSIZE=10000
 HISTFILESIZE=10000
 HISTCONTROL=ignoreboth
+
+# SSH Agent
+ssh_environment="${HOME}/.ssh/environment"
+ssh_sysconf='/etc/ssh/sshd_config'
