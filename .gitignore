@@ -1,0 +1,17 @@
+!.bash*
+!.config/**youtube*
+!.ssh/config
+!.vim/vimrc
+!bin/*.sh
+!.bashrc
+
+.bash_history
+.bash_logout
+.gitconfig
+.inputrc
+.lesshst
+.minttyrc
+.serverauth.5036
+.viminfo
+.Xauthority
+gitadd.sh*

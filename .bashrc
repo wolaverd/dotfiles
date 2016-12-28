@@ -3,9 +3,10 @@ if [[ -f /etc/bash_completion ]]; then
 fi
 
 for include in ~/.bash/*; do
-	if [[ -f $include ]]; then
+	if [[ ! $include =~ history$ ]]; then
 		source "$include"
 	fi
 done
 
-source ~/bin/start-ssh-agent.sh
+source ~/bin/start-ssh-agent
+
