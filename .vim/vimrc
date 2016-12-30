@@ -47,12 +47,13 @@ call vundle#end()
 filetype on
 filetype plugin indent on
 syntax on
-set mouse=a
 
 set noexpandtab               " Make sure that every file uses real tabs, not spaces
 set shiftround                " Round indent to multiple of 'shiftwidth'
 set autoindent                " Copy indent from current line, over to the new line
+
 let s:tabwidth=4
+
 au Filetype * let &l:tabstop = s:tabwidth
 au Filetype * let &l:shiftwidth = s:tabwidth
 au Filetype * let &l:softtabstop = s:tabwidth
@@ -66,7 +67,7 @@ set confirm
 set ead=both
 set showcmd
 set clipboard+=unnamed
-set textwidth=120
+set textwidth=80
 set smartindent
 set incsearch
 set ignorecase

@@ -1,15 +1,38 @@
+#Python
+function pip_search { python -m pip search "$@"; }
+function pip_install { python -m pip search "$@"; }
+function pip_uninstall { python -m pip uninstall "$@"; }
+
+function venv_activate {
+	local dir name fpath
+	dir="${HOME}/.env"
+
+	name="$1"
+	[[ x${name} = x ]] && return 1
+	
+	fpath="${dir}/${name}"
+	[[ ! -d $fpath ]] && virtualenv -p $(which python) "$fpath"
+
+	[[ -f "${fpath}/Scripts/activate" ]] && source "${fpath}/Scripts/activate"
+}
+
 # Package manager
 function upg {
 	if [[ -f /etc/debian_version ]]; then
 		sudo apt-get update -q && sudo apt-get upgrade -q
-	else
+	elif [[ -f /etc/arch-release ]]; then
 		sudo pacman -Syyu
+	else
+		sudo yum makecache fast
+		sudo yum -y update
 	fi
 }
 
 # Git
+function grm { git rm --cached "$@"; }
+
 function gitpush {
-	git add ./*
+	git add '.'
 	git commit
 	git push -u origin master
 }
@@ -47,3 +70,4 @@ function _state { systemctl --state "$@"; }
 function lefix { sed -i 's/\r//g' "$i"; }
 function mkcd { mkdir -pv "$1" && cd "$1"; }
 function dbg { printf "DEBUG: \$_ == %q\n" "$_" >&2; }
+

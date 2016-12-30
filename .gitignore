@@ -1,17 +1,213 @@
-!.bash*
-!.config/**youtube*
-!.ssh/config
-!.vim/vimrc
-!bin/*.sh
 !.bashrc
+!.bash/*
+!.bash_profile
 
-.bash_history
-.bash_logout
-.gitconfig
-.inputrc
-.lesshst
-.minttyrc
-.serverauth.5036
-.viminfo
-.Xauthority
-gitadd.sh*
+!.zshrc
+!.zprofile
+
+!.ssh/config
+
+!.vim/vimrc
+
+!.gitconfig
+!.gitignore
+
+!**youtube-dl.conf
+
+# Defaults #
+
+# OS X
+.DS_Store
+Icon?
+
+# Thumbnails #
+._*
+
+# Files that might appear on external disk #
+.Spotlight-V100
+.Trashes
+
+# Linux
+.*
+*~
+*.sw[a-p]
+
+# KDE
+.directory
+
+# Compiled source #
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.tar.gz
+*.zip
+*.bzip
+
+# Logs and databases #
+*.log
+*.sql
+*.sqlite
+
+# Vim #
+*.swp
+*.swo
+.*.sw[a-z]
+*.un~
+
+# Emacs #
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+
+# TextMate #
+*.tmproj
+*.tmproject
+tmtags
+
+# etags/ctags #
+TAGS
+tags
+
+# SVN #
+/.svn/*
+*/.svn/*
+
+# Automake #
+Makefile.in
+/autom4te.cache
+/aclocal.m4
+/compile
+/configure
+/depcomp
+/install-sh
+/missing
+
+# CMake #
+CMakeCache.txt
+CMakeFiles
+cmake_install.cmake
+install_manifest.txt
+
+# C/C++ #
+*.slo
+*.lo
+*.o
+*.so
+*.lai
+*.la
+*.a
+
+# LaTeX #
+*.aux
+*.bbl
+*.blg
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.log
+*.out
+*.toc
+*.fdb_latexmk
+*.pdfsync
+*.synctex.gz
+*.nav
+*.snm
+*.vrb
+
+# Node #
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+pids
+logs
+results
+
+# Xcode/Objective-C #
+build/*
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+*.xcworkspace
+!default.xcworkspace
+xcuserdata
+profile
+*.moved-aside
+
+# Scala #
+*.class
+*.log
+
+# sbt specific
+dist/*
+target/
+lib_managed/
+src_managed/
+project/boot/
+project/plugins/project/
+
+# Ruby #
+coverage
+rdoc
+pkg
+test/tmp
+test/version_tmp
+tmp
+pkg
+*.gem
+*.rbc
+lib/bundler/man
+spec/reports
+.config
+InstalledFiles
+.bundle
+
+# Rails #
+*.rbc
+*.sassc
+.sass-cache
+capybara-*.html
+.rspec
+/.bundle
+/vendor/bundle
+/log/*
+/tmp/*
+/db/*.sqlite3
+/public/system/*
+/coverage/
+/spec/tmp/*
+*.orig
+config/*.yml
+rerun.txt
+
+# Java #
+*.class

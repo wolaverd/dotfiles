@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -e
 umask 066
 
 function start_agent {
@@ -6,7 +6,6 @@ function start_agent {
 	ssh-agent | sed 's/^echo/#echo/' > "$ssh_environment"
 	source "$ssh_environment" > /dev/null
 }
-
 
 ssh_environment="${HOME}/.ssh/environment"
 
@@ -17,19 +16,6 @@ if [[ -f $ssh_environment ]]; then
 else
 	start_agent
 fi
-
-# Get list of agent pids to work with.
-if [[ -f /etc/arch-release ]]; then
-	agent_pids="$(ps aux | awk '$11 ~ /ssh\-agent$/ {print $2}')"
-else
-	agent_pids="$(ps aux | awk '$8 ~ /ssh\-agent$/ {print $1}')"
-fi
-
-for agent_pid in "${agent_pids[@]}"; do
-	if [[ $agent_pid -ne $SSH_AGENT_PID ]]; then
-		kill -9 "$agent_pid"
-	fi
-done
 
 if [[ -n $SSH_AGENT_PID && -f ${HOME}/.ssh/id_rsa ]]; then
 	ssh-add "${HOME}/.ssh/id_rsa"
