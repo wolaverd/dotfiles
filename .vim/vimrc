@@ -1,51 +1,8 @@
 set nocompatible
-filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'VundleVim/Vundle.vim'
-
-" Airline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-"set laststatus=2
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='papercolor'
-let g:airline_left_sep='|'
-let g:airline_right_sep='|'
-let g:airline_detect_paste=1
-let g:airline#extensions#hunks#enabled = 0
-let g:airline_mode_map = {
-  \ '__' : '-',
-  \ 'n'  : 'N',
-  \ 'i'  : 'I',
-  \ 'R'  : 'R',
-  \ 'c'  : 'C',
-  \ 'v'  : 'V',
-  \ 'V'  : 'V',
-  \ '' : 'V',
-  \ 's'  : 'S',
-  \ 'S'  : 'S',
-  \ '' : 'S',
-  \ }
-
-" Nerdtree
-Plugin 'scrooloose/nerdtree'
-map <C-d> :NERDTreeToggle<CR>
-let g:NERDTreeDirArrowExpandable = '<'
-let g:NERDTreeDirArrowCollapsible = '>'
-
-" Other repos
-Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'hlissner/vim-multiedit'
-
-call vundle#end()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 filetype on
 filetype plugin indent on
+
 syntax on
 
 set noexpandtab               " Make sure that every file uses real tabs, not spaces
@@ -76,5 +33,3 @@ set noswapfile
 set wildmenu
 set wildmode=list
 set t_Co=256
-set background=light
-colorscheme github
