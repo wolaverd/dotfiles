@@ -25,6 +25,7 @@ shopt -s extglob dotglob nullglob
 # History
 shopt -s histappend
 HISTSIZE=10000
+HISTFILE="${HOME}/.bash_history"
 HISTFILESIZE=10000
 HISTCONTROL=ignoreboth
 
