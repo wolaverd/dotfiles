@@ -15,6 +15,7 @@ function link_file {
 workdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 files="$(git ls-files | grep -v '\.gitignore\|setup.sh')"
+echo "$files"
 
 for file in "${files[@]}"; do
 	echo "$file"
