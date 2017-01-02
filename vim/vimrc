@@ -1,4 +1,53 @@
 set nocompatible
+set nocompatible                     "we vim now
+
+" Vundle
+filetype off
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+
+" Github repos
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'terryma/vim-multiple-cursors'
+
+" Airline
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+set laststatus=2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='hybridline'
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_detect_paste=1
+let g:airline#extensions#hunks#enabled = 0
+let g:airline_mode_map = {
+  \ '__' : '-',
+  \ 'n'  : 'N',
+  \ 'i'  : 'I',
+  \ 'R'  : 'R',
+  \ 'c'  : 'C',
+  \ 'v'  : 'V',
+  \ 'V'  : 'V',
+  \ '' : 'V',
+  \ 's'  : 'S',
+  \ 'S'  : 'S',
+  \ '' : 'S',
+  \ }
+
+" Nerdtree {{
+Plugin 'scrooloose/nerdtree'
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeDirArrowExpandable = '▸'
+let g:NERDTreeDirArrowCollapsible = '▾'
+
+" Other repos
+Plugin 'pythoncomplete'
+Plugin 'taglist.vim'
+
+call vundle#end()
 
 filetype on
 filetype plugin indent on
@@ -14,6 +63,15 @@ let s:tabwidth=4
 au Filetype * let &l:tabstop = s:tabwidth
 au Filetype * let &l:shiftwidth = s:tabwidth
 au Filetype * let &l:softtabstop = s:tabwidth
+
+" Multi cursor
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_prev_key='<C-p>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
 
 set shortmess=a		" Abbreviated messages, no truncation.
 set number
@@ -33,3 +91,5 @@ set noswapfile
 set wildmenu
 set wildmode=list
 set t_Co=256
+
+colorscheme github
