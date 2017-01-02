@@ -5,6 +5,7 @@ function link_file {
 	dest="$2"
 	ddir="${dest%/*}"
 
+	[[ -f $dest ]] && rm "$dest"
 	[[ ! -d $ddir ]] && mkdir -p "$ddir"
 
 	ln -s "$src" "$dest"
