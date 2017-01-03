@@ -25,7 +25,6 @@ alias off='systemctl poweroff'
 alias reboots='systemctl restart'
 
 # Git
-alias gdel='git rm --cached $(git status --porcelain | awk '$1 ~ /D/ {print $2}')'
 alias gs='git status --short --untracked-files=no'
 alias ga='git add .'
 alias gpush='git push -u origin master'

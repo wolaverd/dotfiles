@@ -3,7 +3,7 @@ import os
 import sys
 
 def link_files(src, dest):
-	if os.path.exists(dest):
+	if os.path.exists(dest) or os.path.lexists(dest):
 		os.unlink(dest)
 
 	pdir = os.path.dirname(dest)

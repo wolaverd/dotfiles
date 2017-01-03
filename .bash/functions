@@ -29,7 +29,7 @@ function upg {
 }
 
 # Git
-function grm { git rm --cached "$@"; }
+function grm { git rm --cached $(git status --porcelain | awk '$1 ~ /D/ {print $2}'); }
 function clone_repo { git clone git@glab:wolaver/${1}.git; }
 
 function gitpush {
