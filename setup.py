@@ -9,7 +9,7 @@ def link_files(src, dest):
 	pdir = os.path.dirname(dest)
 
 	if not os.path.isdir(pdir):
-		os.mkdir(dest_pdir)
+		os.mkdir(pdir)
 
 	os.symlink(src, dest)
 
