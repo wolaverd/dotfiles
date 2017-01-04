@@ -1,5 +1,5 @@
-if [[ -f /etc/bash_completion ]]; then
-	source '/etc/bash_completion'
+if [[ -f /usr/share/bash-completion/bash_completion ]]; then
+	source /usr/share/bash-completion/bash_completion
 fi
 
 for include in ~/.bash/*; do
@@ -7,3 +7,4 @@ for include in ~/.bash/*; do
 		source "$include"
 	fi
 done
+

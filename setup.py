@@ -1,27 +1,45 @@
 import subprocess
+import logging
 import os
-import sys
 
-def link_files(src, dest):
-	if os.path.exists(dest) or os.path.lexists(dest):
-		os.unlink(dest)
-
-	pdir = os.path.dirname(dest)
-
-	if not os.path.isdir(pdir):
-		os.mkdir(pdir)
-
-	os.symlink(src, dest)
-
+import setup_lib as sl
 
 home = os.path.expanduser('~')
+logging.info('home is %s', home)
+
 repo = os.getcwd()
+logging.info('repo is %s', repo)
 
 dotfiles = subprocess.getoutput('git ls-files').splitlines()
 
 for dotfile in dotfiles:
-	if dotfile != 'setup.py' and dotfile != '.gitignore':
-		spath = os.path.abspath(dotfile)
-		dpath = os.path.join(home, dotfile)
+    logging.info('loop: dotfile is %s', dotfile)
 
-		link_files(spath, dpath)
+    if dotfile != 'setup.py' and dotfile != '.gitignore':
+        spath = os.path.abspath(dotfile)
+        logging.info('loop: spath is %s', spath)
+
+        dpath = os.path.join(home, dotfile)
+        logging.info('loop: dpath is %s', dpath)
+
+        try:
+            sl.unlink_files(dpath)
+        except Exception as e:
+            logging.error(
+                'unlink_files: unlink failed for %s: err: %s', dpath, e)
+            return 1
+
+        try:
+            sl.make_parent_dir(dpath)
+        except Exception as e:
+            logging.error(
+                'make_parent_dir: mkdir failed for %s: err: %s', dpath, e)
+            return 1
+
+        try:
+            sl.link_files(spath, dpath)
+        except Exception as e:
+            logging.error(
+                'link_files: failed linking %s to %s: err: %s',
+                spath, dpath, e)
+            return 1
