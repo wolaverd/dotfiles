@@ -1,6 +1,7 @@
 import subprocess
 import logging
 import os
+import sys
 
 import setup_lib as sl
 
@@ -27,14 +28,14 @@ for dotfile in dotfiles:
         except Exception as e:
             logging.error(
                 'unlink_files: unlink failed for %s: err: %s', dpath, e)
-            return 1
+            sys.exit(1)
 
         try:
             sl.make_parent_dir(dpath)
         except Exception as e:
             logging.error(
                 'make_parent_dir: mkdir failed for %s: err: %s', dpath, e)
-            return 1
+            sys.exit(1)
 
         try:
             sl.link_files(spath, dpath)
@@ -42,4 +43,4 @@ for dotfile in dotfiles:
             logging.error(
                 'link_files: failed linking %s to %s: err: %s',
                 spath, dpath, e)
-            return 1
+            sys.exit(1)
