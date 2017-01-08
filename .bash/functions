@@ -72,3 +72,10 @@ function lefix { sed -i 's/\r//g' "$i"; }
 function mkcd { mkdir -pv "$1" && cd "$1"; }
 function dbg { printf "DEBUG: \$_ == %q\n" "$_" >&2; }
 
+# Bash
+function mantoc {
+	local manpage
+	manpage="$1"
+
+	man "$1" | cat | grep -o '^[A-Z][A-Z -]\+'
+}
