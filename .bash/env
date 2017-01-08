@@ -41,3 +41,8 @@ if $(which nginx &> /dev/null); then
 	nginx_sysconf='/etc/nginx/nginx.conf'
 	nginx_root='/usr/share/nginx/html'
 fi
+
+# Python
+PYTHON=$(which python3)
+export PYTHON
+
