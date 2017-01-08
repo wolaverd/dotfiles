@@ -4,8 +4,12 @@ if $(which vim &> /dev/null); then
 fi
 
 # Windows variables
-if [[ -e /cygdrive/c/Users/neeto ]]; then
-	export chome='/cygdrive/c/Users/neeto'
+if [[ -e /cygdrive/c/Users/neeto ||  -e /mnt/c ]]; then
+	if [[ -d /mnt/c/Users/neeto ]]; then
+	    export chome='/cygdrive/c/Users/neeto'
+	else
+	    export chome='/mnt/c/Users/Jody'
+	fi
 	export cprojects="${chome}/projects"
 	export posh="${chome}/Documents/WindowsPowerShell/Microsoft.PowerShell_profile.ps1"
 fi

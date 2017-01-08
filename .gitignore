@@ -196,6 +196,9 @@ rerun.txt
 # Java #
 *.class
 
+# Python #
+*.pyc
+
 # Custom #
 !.bash*
 !.ssh
