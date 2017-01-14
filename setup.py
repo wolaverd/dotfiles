@@ -51,9 +51,8 @@ print('changing ssh file permissions')
 ssh_dir = os.path.join(home, '.ssh')
 
 print("chmod dir: {0}".format(ssh_dir))
-os.chmod(ssh_dir, 700)
+os.chmod(ssh_dir, 16832)
 
 for ssh_file in os.listdir(ssh_dir):
     print("chmod file: {0}".format(ssh_file))
-    os.chmod(ssh_file, 600)
-
+    os.chmod(ssh_file, 33152)
