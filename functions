@@ -1,0 +1,111 @@
+lefix () { sed -i 's/\r//g' "$i"; }
+mkcd () { mkdir -pv "$1" && cd "$1"; }
+dbg () { printf "DEBUG: \$_ == %q\n" "$_" >&2; }
+
+mantoc () {
+	local manpage
+	manpage="$1"
+
+	man "$manpage" | cat | grep -o '^[A-Z][A-Z -]\+'
+}
+
+mountext () {
+	if [[ -f $1 ]]; then
+		sudo mount "$1" /run/media/neeto -o \
+			user,rw,umask=111,dmask=000
+	fi
+}
+
+# Python
+pip_search () { python -m pip search "$@"; }
+pip_install () { python -m pip search "$@"; }
+pip_uninstall () { python -m pip uninstall "$@"; }
+
+venv_activate () {
+	local name env script
+
+	[[ -z $1 ]] && exit
+
+	name="$1"
+	envs="${HOME}/.env/${name}"
+
+	[[ ! -d $envs ]] && exit
+	
+	script="${dir}/${name}/"
+
+	[[ -f "${fpath}/Scripts/activate" ]] && source "${fpath}/Scripts/activate"
+}
+
+# Package manager
+upg () {
+	if [[ -f /etc/debian_version ]]; then
+		sudo apt-get update -q && sudo apt-get upgrade -q
+	elif [[ -f /etc/arch-release ]]; then
+		sudo pacman -Syyu
+	else
+		sudo yum makecache fast
+		sudo yum -y update
+	fi
+}
+
+Install () {
+	for pkg in "$@"; do
+		if pacman -Ssq "$pkg" > /dev/null; then
+			sudo pacman -S --needed "$@"
+		else
+			pacaur -S --needed "$@"
+		fi
+	done
+}
+
+# Git
+grm () { git rm --cached $(git status --porcelain | awk '$1 ~ /D/ {print $2}'); }
+clone_repo () { git clone git@glab:wolaver/${1}.git; }
+
+gitpush () {
+	git add '.'
+	git commit
+	git push -u origin master
+}
+
+getfilelist () {
+	{ find ./ -maxdepth 1 -type d \! -regex '^\.\/$'
+	  find ./ -maxdepth 1 -type f
+	} | sed 's/^\.\///g'
+}
+
+# Network
+net_start () {
+	if [[ $# -ne 0 ]]; then
+		local conn="$1"
+		[[ -f /etc/netctl/${conn} ]] && sudo netctl start "$conn"
+	else
+		exit 1
+	fi
+}
+
+# Systemd
+start () { sudo systemctl start "$@"; }
+stop () { sudo systemctl stop "$@"; }
+restart () { sudo systemctl restart "$@"; }
+status () { sudo systemctl status "$@"; }
+enabled () { sudo systemctl enable "$@"; }
+disabled () { sudo systemctl disable "$@"; }
+Start () { sudo systemctl start "$@"; sudo systemctl status "$@"; }
+Stop () { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
+Restart () { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
+Enable () { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+Disable () { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+ustart () { systemctl --user start "$@"; }
+ustop () { systemctl --user stop "$@"; }
+ustatus () { systemctl --user status "$@"; }
+uenabled () { systemctl --user enable "$@"; }
+udisabled () { systemctl --user disable "$@"; }
+State () { systemctl --state="$@"; }
+
+archive_dotfiles () {
+	local wd=$(pwd)
+	cd "$HOME"
+	find ./ -maxdepth 2 -type f -regex '^\.\/\.z[^_-]+' \! -path "*.git*"
+	cd "$wd"
+}
