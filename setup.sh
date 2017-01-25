@@ -15,7 +15,7 @@ case "$SHELL" in
 esac
 
 dotfiles=(
-	"./${inc_dir}"
+	./${inc_dir}/*
 	'./functions'
 	'./aliases'
 	'./.vim'
@@ -30,6 +30,8 @@ for dotfile in "${dotfiles[@]}"; do
 
 	# Removes any conflicting files or links.
 	[[ -e $dest || -h $dest ]] && rm -rf "$dest"
+
+	# If dotfile's parent dir is non-existant and user has write permissions of it's grandparent dir..
 	if [[ ! -d $dest_pdir && -w $(dirname "$dest_pdir") ]]; then
 		mkdir -p "$dest_pdir"
 	fi
