@@ -1,40 +1,27 @@
 #!/bin/bash
 
+set -e
+
+[[ -f './setup-lib.sh' ]] && source './setup-lib.sh'
+
 declare -a dotfiles
 
 case "$SHELL" in
 	*bash)
-		inc_dir='.bash'
+		dotfiles+=(./dotfiles/.bash/.{bashrc,bash_profile})
 		;;
 	*zsh)
-		inc_dir='.zsh'
+		dotfiles+=(./dotfiles/.zsh/.{zshrc,zprofile,zshenv})
 		;;
 	*)
 		exit 1
 		;;
 esac
 
-dotfiles=(
-	./${inc_dir}/*
-	'./functions'
-	'./aliases'
-	'./.vim'
-)
+dotfiles+=(./dotfiles/{aliases,functions,.vim/vimrc})
 
 for dotfile in "${dotfiles[@]}"; do
-	# Abspath to repo's copy.
-	src=$(realpath "$dotfile")
-	# Substitute dotslash for $HOME.
-	dest="${dotfile/.\//$HOME/}"
-	dest_pdir=$(dirname "$dest")
+	source_path=$(realpath "$dotfile")
 
-	# Removes any conflicting files or links.
-	[[ -e $dest || -h $dest ]] && rm -rf "$dest"
-
-	# If dotfile's parent dir is non-existant and user has write permissions of it's grandparent dir..
-	if [[ ! -d $dest_pdir && -w $(dirname "$dest_pdir") ]]; then
-		mkdir -p "$dest_pdir"
-	fi
-
-	ln -s "$src" "$dest" || break
+	link_dotfile "$source_path"
 done
