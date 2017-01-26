@@ -4,12 +4,12 @@ link_dotfile () {
 	local ln_dest_pdir
 
 	local filename
-	local dotfile_dir
+	local dest_dir
 
 	if [[ $SHELL = '/bin/zsh' ]]; then
-		dotfile_dir="${HOME}/.zsh"
+		dest_dir="${HOME}/.zsh"
 	else
-		dotfile_dir="${HOME}/.bash"
+		dest_dir="${HOME}/.bash"
 	fi
 
 	filename=$(basename "$ln_src")
@@ -19,8 +19,12 @@ link_dotfile () {
 			ln_dest="${HOME}/${filename}"
 			;;
 
-		functions|aliases)
-			ln_dest="${dotfile_dir}/${filename}"
+		aliases)
+			ln_dest="${dest_dir}/${filename}"
+			;;
+
+		*.sh)
+			ln_dest="${dest_dir}/functions/${filename}"
 			;;
 
 		vimrc)
@@ -33,10 +37,11 @@ link_dotfile () {
 	esac
 
 	ln_dest_pdir=$(dirname "$ln_dest")
-	[[ ! -d $ln_dest_pdir ]] && mkdir "$ln_dest_pdir"
+	[[ ! -d $ln_dest_pdir ]] && mkdir -p "$ln_dest_pdir"
 
-	[[ -e $ln_dest || -h $ln_dest ]] && rm -f "$ln_dest"
+	
+	[[ ! -e $ln_dest && -h $ln_dest ]] && rm -f "$ln_dest"					# Remove broken symlink.
+	[[ -e $ln_dest && ! -h $ln_dest ]] && rm -f "$ln_dest"					# Remove regular file.
 
-	#echo "ln -s "\""$ln_src"\"" "\""$ln_dest"\"
-	ln -s "$ln_src" "$ln_dest"
+	[[ ! -e $ln_dest && ! -h $ln_dest ]] && ln -s "$ln_src" "$ln_dest"
 }

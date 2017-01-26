@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 [[ -f './setup-lib.sh' ]] && source './setup-lib.sh'
 
 declare -a dotfiles
@@ -18,9 +16,10 @@ case "$SHELL" in
 		;;
 esac
 
-dotfiles+=(./dotfiles/{aliases,functions,.vim/vimrc})
+dotfiles+=(./dotfiles/{aliases,functions/*,.vim/vimrc})
 
 for dotfile in "${dotfiles[@]}"; do
+	#echo "$dotfile"
 	source_path=$(realpath "$dotfile")
 
 	link_dotfile "$source_path"
