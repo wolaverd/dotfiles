@@ -14,23 +14,19 @@ link_dotfile () {
 
 	filename=$(basename "$ln_src")
 
-	case "$filename" in
-		.z*)
+	case "$ln_src" in
+		*/.z*)
 			ln_dest="${HOME}/${filename}"
 			;;
-
-		aliases)
+		*/aliases)
 			ln_dest="${dest_dir}/${filename}"
 			;;
-
-		*.sh)
+		*/functions/*)
 			ln_dest="${dest_dir}/functions/${filename}"
 			;;
-
-		vimrc)
+		*/vimrc)
 			ln_dest="${HOME}/.vim/${filename}"
 			;;
-
 		*)
 			return 1
 			;;
@@ -38,7 +34,6 @@ link_dotfile () {
 
 	ln_dest_pdir=$(dirname "$ln_dest")
 	[[ ! -d $ln_dest_pdir ]] && mkdir -p "$ln_dest_pdir"
-
 	
 	[[ ! -e $ln_dest && -h $ln_dest ]] && rm -f "$ln_dest"					# Remove broken symlink.
 	[[ -e $ln_dest && ! -h $ln_dest ]] && rm -f "$ln_dest"					# Remove regular file.
