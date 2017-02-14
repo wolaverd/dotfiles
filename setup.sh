@@ -20,7 +20,7 @@ dotfiles+=(./dotfiles/{.aliases,.functions,.vim/vimrc})
 
 for dotfile in "${dotfiles[@]}"; do
 	source_path=$(realpath "$dotfile")
-	link_dotfile "$source_path"
+	link_dotfile "$source_path" 2>/dev/null
 done
 unset dotfiles
 

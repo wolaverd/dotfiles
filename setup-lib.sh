@@ -6,16 +6,10 @@ link_dotfile () {
 	filename=$(basename "$ln_src")
 
 	case "$filename" in
-		.z*|.b*)
+		.z*|.b*|.profile|.functions|.aliases)
 			ln_dest="${HOME}/${filename}"
 			;;
-		.aliases)
-			ln_dest="${HOME}/${filename}"
-			;;
-		.functions)
-			ln_dest="${HOME}/${filename}"
-			;;
-		*/vimrc)
+		vimrc)
 			ln_dest="${HOME}/.vim/${filename}"
 			;;
 		*)
