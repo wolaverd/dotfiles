@@ -1,0 +1,86 @@
+grm () {
+	git rm --cached $(
+		git status --porcelain | awk '$1 ~ /D/ {print $2}'
+	)
+}
+
+clone_repo () { git clone git@glab:wolaver/${1}.git; }
+
+gitpush () {
+	git add ./* && git commit
+	git push -u origin master
+}
+
+
+upg () { sudo apt-get update && sudo apt-get upgrade; }
+srch () { apt-cache search "$@"; }
+pinstall () { sudo apt-get update && sudo apt-get install "$@"; }
+
+
+pip_search () { python -m pip search "$@"; }
+pip_install () { python -m pip search "$@"; }
+pip_uninstall () { python -m pip uninstall "$@"; }
+
+venv_activate () {
+	local env="${HOME}/.env/${1}"
+	local script
+
+	[[ ! -d $env ]] && return 1
+
+	if [[ -d ${env}/bin ]]; then
+		script="${env}/bin/activate"
+	else
+		script="${env}/Scripts/activate"
+	fi
+
+	[[ -f "$script" ]] && source "$script"
+}
+
+
+start () { sudo systemctl start "$@"; }
+stop () { sudo systemctl stop "$@"; }
+restart () { sudo systemctl restart "$@"; }
+status () { sudo systemctl status "$@"; }
+enabled () { sudo systemctl enable "$@"; }
+disabled () { sudo systemctl disable "$@"; }
+
+Start () { sudo systemctl start "$@"; sudo systemctl status "$@"; }
+Stop () { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
+Restart () { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
+Enable () { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+Disable () { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+
+State () { systemctl --state="$@"; }
+
+ustart () { systemctl --user start "$@"; }
+ustop () { systemctl --user stop "$@"; }
+ustatus () { systemctl --user status "$@"; }
+uenabled () { systemctl --user enable "$@"; }
+udisabled () { systemctl --user disable "$@"; }
+
+
+lefix () { sed -i 's/\r//g' "$@"; }
+mkcd () { mkdir -pv "$1" && cd "$1"; }
+dbg () { printf "DEBUG: \$_ == %q\n" "$_" >&2; }
+
+mantoc () {
+	local manpage="$1"
+
+	man "$manpage" | cat | grep -o '^[A-Z][A-Z -]\+'
+}
+
+mountext () {
+	local device="$1"
+	local mountpoint="$2"
+
+	if [[ -b $device ]]; then
+		sudo mount "$device" "$mountpoint" -o user,rw,umask=111,dmask=000
+	fi
+}
+
+getfilelist () {
+	{ find ./ -maxdepth 1 -type d \! -regex '^\.\/$'
+	  find ./ -maxdepth 1 -type f
+	} | sed 's/^\.\///g'
+}
+

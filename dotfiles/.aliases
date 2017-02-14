@@ -1,0 +1,54 @@
+# Yubikey
+alias yp='ykpersonalize'
+alias yi='ykinfo'
+
+# Dotfiles
+if [[ $SHELL = $(which zsh) ]]; then
+	alias eb="vim ~/.zshrc"
+	alias rb="source ~/.zshrc"
+else
+	alias eb="vim ~/.bashrc"
+	alias rb="source ~/.bashrc"
+fi
+
+# Core
+alias ls='ls -F --group-directories-first'
+alias ll='ls -AlhFt --color=never'
+alias dfind='find ./ -maxdepth 1 -type d \! -regex '^\.\/$''
+alias ffind='find ./ -maxdepth 1 -type f'
+alias cls='clear'
+alias xx='exit'
+alias cpa='cp -a'
+
+# Network
+alias ssp='sudo ss -tulpn'
+
+# Editor
+alias v='vim'
+
+# Systemd
+alias sctl='systemctl'
+alias sctlfi='systemctl list-unit-files'
+alias jctl='journalctl'
+alias off='systemctl poweroff'
+alias reboots='systemctl restart'
+
+# Git
+alias gs='git status --short --untracked-files=no'
+alias ga='git add .'
+alias gpush='git push -u origin master'
+alias gc='git commit -m'
+# Git log
+alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias glpac="git log --graph --pretty='tformat:%C(yellow)%h{%C(green)%ar{%C(bold blue)%an{%C(red)%d%C(reset) %s' $* | column -t -s '{' | less -FXRS"
+alias glll='git log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat'
+alias glra="git log --graph --abbrev-commit --date=relative -20 --all --pretty='format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
+
+# Python
+alias pupg='python -m pip install --upgrade pip'
+alias ipy='ipython --profile=foo'
+
+# Package Manager
+alias aptc='apt-cache'
+alias aptg='sudo apt-get'
+
