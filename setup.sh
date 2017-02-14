@@ -6,17 +6,17 @@ declare -a dotfiles
 
 case "$SHELL" in
 	*bash)
-		dotfiles+=(./dotfiles/.bash/.{bashrc,bash_profile})
+		dotfiles+=(./dotfiles/.{bashrc,bash_profile})
 		;;
 	*zsh)
-		dotfiles+=(./dotfiles/.zsh/.{zshrc,zprofile,zshenv})
+		dotfiles+=(./dotfiles/.{zshrc,zprofile,zshenv})
 		;;
 	*)
 		exit 1
 		;;
 esac
 
-dotfiles+=(./dotfiles/{.aliases,.functions,.vim/vimrc})
+dotfiles+=(./dotfiles/{.aliases,.functions,vimrc})
 
 for dotfile in "${dotfiles[@]}"; do
 	source_path=$(realpath "$dotfile")
