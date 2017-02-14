@@ -16,11 +16,11 @@ case "$SHELL" in
 		;;
 esac
 
-dotfiles+=(./dotfiles/{aliases,functions/*,.vim/vimrc})
+dotfiles+=(./dotfiles/{.aliases,.functions,.vim/vimrc})
 
 for dotfile in "${dotfiles[@]}"; do
-	#echo "$dotfile"
 	source_path=$(realpath "$dotfile")
-
 	link_dotfile "$source_path"
 done
+unset dotfiles
+
