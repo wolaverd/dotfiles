@@ -19,6 +19,7 @@ alias ffind='find ./ -maxdepth 1 -type f'
 alias cls='clear'
 alias xx='exit'
 alias cpa='cp -a'
+alias shred='sudo shred --verbose --force --iterations=1 --remove --zero'
 
 # Network
 alias ssp='sudo ss -tulpn'
@@ -31,7 +32,7 @@ alias sctl='systemctl'
 alias sctlfi='systemctl list-unit-files'
 alias jctl='journalctl'
 alias off='systemctl poweroff'
-alias reboots='systemctl restart'
+alias rboot='systemctl restart'
 
 # Git
 alias gs='git status --short --untracked-files=no'
@@ -51,4 +52,3 @@ alias ipy='ipython --profile=foo'
 # Package Manager
 alias aptc='apt-cache'
 alias aptg='sudo apt-get'
-

@@ -1,3 +1,8 @@
+ytdl () {
+    /usr/local/bin/youtube-dl --yes-playlist --config-location ~/.config/youtube-dl/config "$@"
+}
+
+
 grm () {
 	git rm --cached $(
 		git status --porcelain | awk '$1 ~ /D/ {print $2}'
@@ -48,7 +53,7 @@ Start () { sudo systemctl start "$@"; sudo systemctl status "$@"; }
 Stop () { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
 Restart () { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
 Enable () { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
-Disable () { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+Disable () { sudo systemctl disable "$@"; sudo systemctl status "$@"; }
 
 State () { systemctl --state="$@"; }
 

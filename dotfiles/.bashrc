@@ -20,7 +20,7 @@ for bash_builtin in "${builtins[@]}"; do
 	# check return value from shopt -q
 	# 1: enabled, 0: otherwise
 	shopt -q "$bash_builtin" && ret="$?"
-	[[ $ret = 1 ]] && echo "$bash_builtin"
+	[[ $ret = 1 ]] && shopt -s "$bash_builtin"
 done
 unset builtins
 
@@ -50,7 +50,7 @@ fi
 
 if [ "$color_prompt" = yes ]; then
 	# Change prompt for SSH connections.
-	PS1='${debian_chroot:+($debian_chroot) }${ssh_prompt:+($ssh_prompt) }[\@] \[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\w\[\033[00m\]\n> '
+	PS1='${debian_chroot:+($debian_chroot)}${ssh_prompt:+($ssh_prompt)\n}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))\n}[\@] \[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\w\[\033[00m\]\n> '
 else
     PS1='${debian_chroot:+($debian_chroot)}${ssh_prompt:+($ssh_prompt) }[\@] \u@\h: \w\n> '
 fi
@@ -90,3 +90,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
