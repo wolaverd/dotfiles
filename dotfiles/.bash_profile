@@ -10,7 +10,7 @@ pathCheck() {
 
 
 path=(
-    '/bin:/sbin:/usr/bin:/usr/sbin'
+    '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin'
     "${HOME}/bin"
     "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
     "/usr/local/bin/ignition"
