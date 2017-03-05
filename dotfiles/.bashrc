@@ -16,53 +16,37 @@ builtins=(
 	'sourcepath'
 )
 
-for bash_builtin in "${builtins[@]}"; do
-	# check return value from shopt -q
-	# 1: enabled, 0: otherwise
-	shopt -q "$bash_builtin" && ret="$?"
-	[[ $ret = 1 ]] && shopt -s "$bash_builtin"
+for builtin in "${builtins[@]}"; do
+	shopt -q "$builtin" && ret="$?"
+	[[ $ret -eq 1 ]] && shopt -s "$builtin"
 done
 unset builtins
-
 
 HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
 
-
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
-if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	color_prompt=yes
-else
-	color_prompt=
-fi
-
-if [ -n "$SSH_CONNECTION" ]; then
-    ssh_prompt="${SSH_CONNECTION/ * /:}"
-fi
+[[ -n $SSH_CONNECTION ]] && sshPrompt="${SSH_CONNECTION/ * /:}"
+[[ -n $VIRTUAL_ENV ]] && envName="${VIRTUAL_ENV##*/}"
 
 if [ "$color_prompt" = yes ]; then
-	# Change prompt for SSH connections.
-	PS1='${debian_chroot:+($debian_chroot)}${ssh_prompt:+($ssh_prompt)\n}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))\n}[\@] \[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\w\[\033[00m\]\n> '
+	PS1='${ssh_prompt:+($sshPrompt)\n}${VIRTUAL_ENV:+($envName)\n}[\@] \[\033[01;32m\]\u@\h\[\033[00m\]: \[\033[01;34m\]\w\[\033[00m\]\n> '
 else
-    PS1='${debian_chroot:+($debian_chroot)}${ssh_prompt:+($ssh_prompt) }[\@] \u@\h: \w\n> '
+    PS1='${ssh_prompt:+($sshPrompt)\n}${VIRTUAL_ENV:+($envName)\n}[\@] \u@\h: \w\n> '
 fi
 unset color_prompt force_color_prompt
 
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
+#case "$TERM" in
+#xterm*|rxvt*)
+    #PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    #;;
+#*)
+    #;;
+#esac
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -71,16 +55,12 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 
 [[ -f ~/.functions ]] && source ~/.functions
 [[ -f ~/.aliases ]] && source ~/.aliases
-
 
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -89,7 +69,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"

@@ -90,7 +90,7 @@ set wildmenu
 set wildmode=list
 set t_Co=256
 
-colorscheme github
+colorscheme default
 
 " Window nagivation
 map <C-j> <C-W>j

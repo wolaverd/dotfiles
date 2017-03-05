@@ -52,3 +52,6 @@ alias ipy='ipython --profile=foo'
 # Package Manager
 alias aptc='apt-cache'
 alias aptg='sudo apt-get'
+
+# Ignition
+alias rlog="grep -v '^\(STATUS\|INFO\|DEBUG\)' /usr/local/bin/ignition/wrapper.log | less"
