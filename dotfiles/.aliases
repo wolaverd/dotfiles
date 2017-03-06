@@ -19,7 +19,7 @@ alias ffind='find ./ -maxdepth 1 -type f'
 alias cls='clear'
 alias xx='exit'
 alias cpa='cp -a'
-alias shred='sudo shred --verbose --force --iterations=1 --remove --zero'
+alias shred='shred --verbose --force --iterations=1 --remove --zero'
 
 # Network
 alias ssp='sudo ss -tulpn'
@@ -39,7 +39,6 @@ alias gs='git status --short --untracked-files=no'
 alias ga='git add .'
 alias gpush='git push -u origin master'
 alias gc='git commit -m'
-# Git log
 alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
 alias glpac="git log --graph --pretty='tformat:%C(yellow)%h{%C(green)%ar{%C(bold blue)%an{%C(red)%d%C(reset) %s' $* | column -t -s '{' | less -FXRS"
 alias glll='git log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat'
@@ -54,4 +53,4 @@ alias aptc='apt-cache'
 alias aptg='sudo apt-get'
 
 # Ignition
-alias rlog="grep -v '^\(STATUS\|INFO\|DEBUG\)' /usr/local/bin/ignition/wrapper.log | less"
+alias gwstart='start ignition-gateway.service'

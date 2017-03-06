@@ -1,16 +1,17 @@
 pathCheck() {
-    local newNode="$1" isNode=0
-    while read pathNode; do
-        if [[ $newNode = $pathNode ]]; then
-            isNode=1; break
+    local new="$1" isPath=0
+    while read path; do
+        if [[ $new = $path ]]; then
+            isPath=1
+            break
         fi
     done <<< "$(echo "$PATH" | sed 's/:/\n/g')"
-    echo "$isNode"
+    echo "$isPath"
 }
 
 
 path=(
-    '/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin'
+    '/sbin:/usr/bin:/usr/sbin:/usr/local/bin'
     "${HOME}/bin"
     "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
     "/usr/local/bin/ignition"
@@ -18,6 +19,7 @@ path=(
     "/usr/local/bin/ignition"
 )
 
+PATH="/bin"
 for i in "${path[@]}"; do
     inPath=$(pathCheck "$i")
     if [[ $inPath -eq 0 ]]; then

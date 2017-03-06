@@ -1,13 +1,15 @@
 ytdl () {
-    /usr/local/bin/youtube-dl --yes-playlist --config-location ~/.config/youtube-dl/config "$@"
+    /usr/local/bin/youtube-dl --config-location ~/.config/youtube-dl/config "$@"
 }
 
 
+# Git
 grm () {
 	git rm --cached $(
 		git status --porcelain | awk '$1 ~ /D/ {print $2}'
 	)
 }
+
 
 clone_repo () { git clone git@glab:wolaver/${1}.git; }
 
@@ -17,31 +19,31 @@ gitpush () {
 }
 
 
+# Package manager
 upg () { sudo apt-get update && sudo apt-get upgrade; }
 srch () { apt-cache search "$@"; }
 pinstall () { sudo apt-get update && sudo apt-get install "$@"; }
 
 
+# Python
 pip_search () { python -m pip search "$@"; }
 pip_install () { python -m pip search "$@"; }
 pip_uninstall () { python -m pip uninstall "$@"; }
 
-venv_activate () {
-	local env="${HOME}/.env/${1}"
-	local script
-
-	[[ ! -d $env ]] && return 1
+penv () {
+	local env="${HOME}/.env/${1}" script=
+	[[ ! -d $env ]] && return
 
 	if [[ -d ${env}/bin ]]; then
 		script="${env}/bin/activate"
-	else
+	elif [[ -d ${env}/Scripts ]]; then
 		script="${env}/Scripts/activate"
 	fi
-
-	[[ -f "$script" ]] && source "$script"
+	source "$script"
 }
 
 
+# Systemd
 start () { sudo systemctl start "$@"; }
 stop () { sudo systemctl stop "$@"; }
 restart () { sudo systemctl restart "$@"; }
@@ -62,6 +64,16 @@ ustop () { systemctl --user stop "$@"; }
 ustatus () { systemctl --user status "$@"; }
 uenabled () { systemctl --user enable "$@"; }
 udisabled () { systemctl --user disable "$@"; }
+
+
+# Nix
+lsPath() {
+    local iter=0
+    while read node; do
+        iter=$((iter+1))
+        echo "${iter}:${node}"
+    done <<< "$(echo "$PATH" | sed 's/:/\n/g')"
+}
 
 
 lefix () { sed -i 's/\r//g' "$@"; }
@@ -89,3 +101,9 @@ getfilelist () {
 	} | sed 's/^\.\///g'
 }
 
+
+# Ignition
+rlog () {
+	local -a log=$2
+	awk "\$1 ~ /${1}/ {print}" /usr/local/bin/ignition/wrapper.log
+}
