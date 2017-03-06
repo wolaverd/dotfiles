@@ -103,7 +103,17 @@ getfilelist () {
 
 
 # Ignition
+
+loglvl() {
+	local level="$1" fpath="$2"
+    if (! grep -q 'loglevel\S*=' "$fpath"); then
+        return 1
+    fi
+    sudo sed -i "s/^\([^#]\S\+loglevel.*\)=.*/\1=${level}/g" "$fpath"
+}
+
+
 rlog () {
-	local -a log=$2
-	awk "\$1 ~ /${1}/ {print}" /usr/local/bin/ignition/wrapper.log
+	local level=$1 log=$2
+	awk "\$1 ~ /${level}/ {print}" "$log"
 }
