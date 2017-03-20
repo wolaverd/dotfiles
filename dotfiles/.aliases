@@ -3,13 +3,19 @@ alias yp='ykpersonalize'
 alias yi='ykinfo'
 
 # Dotfiles
-if [[ $SHELL = $(which zsh) ]]; then
-	alias eb="vim ~/.zshrc"
-	alias rb="source ~/.zshrc"
-else
-	alias eb="vim ~/.bashrc"
-	alias rb="source ~/.bashrc"
-fi
+case "$SHELL" in
+    */zsh )
+    	alias eb="vim ~/.zshrc"
+    	alias rb="source ~/.zshrc"
+        ;;
+    */bash )
+    	alias eb="vim ~/.bashrc"
+    	alias rb="source ~/.bashrc"
+        ;;
+    * )
+        break
+        ;;
+esac
 
 # Core
 alias ls='ls -F --group-directories-first'
@@ -28,9 +34,9 @@ alias ssp='sudo ss -tulpn'
 alias v='vim'
 
 # Systemd
-alias sctl='systemctl'
+alias sctl='sudo systemctl'
 alias sctlfi='systemctl list-unit-files'
-alias jctl='journalctl'
+alias jctl='sudo journalctl'
 alias off='systemctl poweroff'
 alias rboot='systemctl restart'
 
@@ -53,4 +59,4 @@ alias aptc='apt-cache'
 alias aptg='sudo apt-get'
 
 # Ignition
-alias gwstart='start ignition-gateway.service'
+alias gwstart='ignition.sh start'

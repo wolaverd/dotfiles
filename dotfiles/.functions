@@ -1,8 +1,3 @@
-ytdl () {
-    /usr/local/bin/youtube-dl --config-location ~/.config/youtube-dl/config "$@"
-}
-
-
 # Git
 grm () {
 	git rm --cached $(
@@ -26,10 +21,6 @@ pinstall () { sudo apt-get update && sudo apt-get install "$@"; }
 
 
 # Python
-pip_search () { python -m pip search "$@"; }
-pip_install () { python -m pip search "$@"; }
-pip_uninstall () { python -m pip uninstall "$@"; }
-
 penv () {
 	local env="${HOME}/.env/${1}" script=
 	[[ ! -d $env ]] && return
@@ -82,14 +73,12 @@ dbg () { printf "DEBUG: \$_ == %q\n" "$_" >&2; }
 
 mantoc () {
 	local manpage="$1"
-
 	man "$manpage" | cat | grep -o '^[A-Z][A-Z -]\+'
 }
 
 mountext () {
 	local device="$1"
 	local mountpoint="$2"
-
 	if [[ -b $device ]]; then
 		sudo mount "$device" "$mountpoint" -o user,rw,umask=111,dmask=000
 	fi
@@ -103,17 +92,6 @@ getfilelist () {
 
 
 # Ignition
-
-loglvl() {
-	local level="$1" fpath="$2"
-    if (! grep -q 'loglevel\S*=' "$fpath"); then
-        return 1
-    fi
-    sudo sed -i "s/^\([^#]\S\+loglevel.*\)=.*/\1=${level}/g" "$fpath"
-}
-
-
 rlog () {
-	local level=$1 log=$2
-	awk "\$1 ~ /${level}/ {print}" "$log"
+	awk '$1 !~ /^(DEBUG|INFO|STATUS)/ {print}' "$1"
 }

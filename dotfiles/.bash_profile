@@ -13,10 +13,9 @@ pathCheck() {
 path=(
     '/sbin:/usr/bin:/usr/sbin:/usr/local/bin'
     "${HOME}/bin"
-    "/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
     "/usr/local/bin/ignition"
     "${HOME}/.rvm/bin"
-    "/usr/local/bin/ignition"
+    "/usr/local/bin/jdk"
 )
 
 PATH="/bin"
@@ -29,7 +28,7 @@ done
 export PATH
 unset path
 
-export TERM='konsole-256color'
+export TERM='xterm-256color'
 export EDITOR='vim'
 export VISUAL='subl'
 export GIT_EDITOR="subl --wait --new-window"

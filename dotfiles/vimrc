@@ -45,7 +45,7 @@ call vundle#end()
 filetype on
 filetype plugin indent on
 
-syntax enable
+syntax off
 
 " Indentation
 set ai				" Auto indent
