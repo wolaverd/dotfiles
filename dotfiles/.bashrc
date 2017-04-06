@@ -26,28 +26,19 @@ HISTCONTROL=ignoreboth
 HISTSIZE=1000
 HISTFILESIZE=2000
 
+# Prompt
 esc='\033';             white="\[${esc}[01;00m\]";      inv="\[${esc}[7m\]"
 reset="\[${esc}[00m\]"; cyan="\[${esc}[96m\]"
 
 [[ -n $SSH_CONNECTION ]] && export sshPrompt="${SSH_CONNECTION/ * /:}"
 [[ -n $VIRTUAL_ENV ]] && export envName="${VIRTUAL_ENV##*/}"
+
 PS1="${ssh_prompt:+($sshPrompt) }${VIRTUAL_ENV:+($envName) }"
 PS1="${PS1}${inv}[\@]${reset} "                # hh:mm am/pm clock
 PS1="${PS1}\u@\h: "                            # user@host:
 PS1="${PS1}${inv}\w${reset}\n> "               # relpath to wd
 export PS1
 unset esc white inv reset cyan
-
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
-fi
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
 
 if [ -f /usr/share/bash-completion/bash_completion ]; then
   . /usr/share/bash-completion/bash_completion
@@ -58,3 +49,5 @@ fi
 [[ -f ~/.functions ]] && source ~/.functions
 [[ -f ~/.aliases ]] && source ~/.aliases
 
+# Python
+export PYTHONDONTWRITEBYTECODE=1

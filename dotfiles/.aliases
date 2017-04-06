@@ -18,8 +18,11 @@ case "$SHELL" in
 esac
 
 # Core
-alias ls='ls -F --group-directories-first'
-alias ll='ls -AlhFt --color=never'
+alias grep='grep --color=auto'
+alias la='ls -A'
+alias l='ls -CF'
+alias ls='ls -F --color=auto --group-directories-first'
+alias ll='ls -AlhFt --color=auto'
 alias dfind='find ./ -maxdepth 1 -type d \! -regex '^\.\/$''
 alias ffind='find ./ -maxdepth 1 -type f'
 alias cls='clear'
@@ -52,7 +55,7 @@ alias glra="git log --graph --abbrev-commit --date=relative -20 --all --pretty='
 
 # Python
 alias pupg='python -m pip install --upgrade pip'
-alias ipy='ipython --profile=foo'
+alias ipy='ipython --classic'
 
 # Package Manager
 alias aptc='apt-cache'
