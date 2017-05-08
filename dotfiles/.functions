@@ -1,27 +1,15 @@
 # Git
-grm () {
-	git rm --cached $(
-		git status --porcelain | awk '$1 ~ /D/ {print $2}'
-	)
-}
-
-
-clone_repo () { git clone git@glab:wolaver/${1}.git; }
-
-gitpush () {
-	git add ./* && git commit
-	git push -u origin master
-}
-
+grm() { git rm --cached "$(git status --porcelain | awk '$1 ~ /D/ {print $2}')"; }
+gpush() { git add ./* && git commit -m 'wip' && git push -u origin master; }
+gclone() { git clone ssh://bit:neeto/${1}.git; }
 
 # Package manager
-upg () { sudo apt-get update && sudo apt-get upgrade; }
-srch () { apt-cache search "$@"; }
-pinstall () { sudo apt-get update && sudo apt-get install "$@"; }
-
+upg() { sudo apt-get update && sudo apt-get upgrade; }
+srch() { apt-cache search "$@"; }
+pinstall() { sudo apt-get update && sudo apt-get install "$@"; }
 
 # Python
-penv () {
+penv() {
 	local env="${HOME}/.env/${1}" script=
 	[[ ! -d $env ]] && return
 
@@ -35,63 +23,62 @@ penv () {
 
 
 # Systemd
-start () { sudo systemctl start "$@"; }
-stop () { sudo systemctl stop "$@"; }
-restart () { sudo systemctl restart "$@"; }
-status () { sudo systemctl status "$@"; }
-enabled () { sudo systemctl enable "$@"; }
-disabled () { sudo systemctl disable "$@"; }
-
-Start () { sudo systemctl start "$@"; sudo systemctl status "$@"; }
-Stop () { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
-Restart () { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
-Enable () { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
-Disable () { sudo systemctl disable "$@"; sudo systemctl status "$@"; }
-
-State () { systemctl --state="$@"; }
-
-ustart () { systemctl --user start "$@"; }
-ustop () { systemctl --user stop "$@"; }
-ustatus () { systemctl --user status "$@"; }
-uenabled () { systemctl --user enable "$@"; }
-udisabled () { systemctl --user disable "$@"; }
-
+start() { sudo systemctl start "$@"; }
+stop() { sudo systemctl stop "$@"; }
+restart() { sudo systemctl restart "$@"; }
+status() { sudo systemctl status "$@"; }
+enabled() { sudo systemctl enable "$@"; }
+disabled() { sudo systemctl disable "$@"; }
+Start() { sudo systemctl start "$@"; sudo systemctl status "$@"; }
+Stop() { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
+Restart() { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
+Enable() { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+Disable() { sudo systemctl disable "$@"; sudo systemctl status "$@"; }
+State() { systemctl --state="$@"; }
+ustart() { systemctl --user start "$@"; }
+ustop() { systemctl --user stop "$@"; }
+ustatus() { systemctl --user status "$@"; }
+uenabled() { systemctl --user enable "$@"; }
+udisabled() { systemctl --user disable "$@"; }
 
 # Nix
 lsPath() {
     local iter=0
-    while read node; do
+    while read node <&9; do
         iter=$((iter+1))
         echo "${iter}:${node}"
-    done <<< "$(echo "$PATH" | sed 's/:/\n/g')"
+    done 9< <(echo "$PATH" | sed 's/:/\n/g')
 }
 
 
-lefix () { sed -i 's/\r//g' "$@"; }
-mkcd () { mkdir -pv "$1" && cd "$1"; }
-dbg () { printf "DEBUG: \$_ == %q\n" "$_" >&2; }
+lefix() { sed -i 's/\r//g' "$@"; }
+mkcd() { mkdir -pv "$1" && cd "$1"; }
+mantoc() { local manpage="$1"; man "$manpage" | cat | grep -o '^[A-Z][A-Z -]\+'; }
+mountext() { sudo mount "$1" "$2" --options user,rw,umask=111,dmask=000; }
 
-mantoc () {
-	local manpage="$1"
-	man "$manpage" | cat | grep -o '^[A-Z][A-Z -]\+'
+getfilelist() {
+	{
+		find ./ -maxdepth 1 -type d \! -regex '^\.\/$'
+		find ./ -maxdepth 1 -type f
+		} | sed 's/^\.\///g'
 }
 
-mountext () {
-	local device="$1"
-	local mountpoint="$2"
-	if [[ -b $device ]]; then
-		sudo mount "$device" "$mountpoint" -o user,rw,umask=111,dmask=000
-	fi
-}
+tarx() { local archive="$1"; tar xaf "$archive" && rm "$archive" && cd "${archive%%.tar*}"; }
 
-getfilelist () {
-	{ find ./ -maxdepth 1 -type d \! -regex '^\.\/$'
-	  find ./ -maxdepth 1 -type f
-	} | sed 's/^\.\///g'
+mkusb() {
+	local media="$1" device="$2"
+	read -p "mkusb: Burn ${media} to ${device}? y|n: " ans
+	[[ $ans != 'y' ]] && return 0
+	sudo dd bs=4M \
+			if="$media" \
+			of="$device" \
+			status=progress \
+			&& sync
+	return "$?"
 }
-
 
 # Ignition
-rlog () {
+rlog() {
 	awk '$1 !~ /^(DEBUG|INFO|STATUS)/ {print}' "$1"
 }
+

@@ -49,5 +49,11 @@ fi
 [[ -f ~/.functions ]] && source ~/.functions
 [[ -f ~/.aliases ]] && source ~/.aliases
 
+if [[ -e $(which keychain) ]]; then
+	eval `keychain --eval --agents ssh id_rsa`
+fi
+
 # Python
 export PYTHONDONTWRITEBYTECODE=1
+
+export PATH="$PATH:/usr/local/bin/ignition"

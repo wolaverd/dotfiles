@@ -10,12 +10,18 @@ pathCheck() {
 }
 
 
+if [ -n "$BASH_VERSION" ]; then
+    [[ -f ~/.bashrc ]] && source ~/.bashrc
+fi
+
+export EDITOR='vim'
+export VISUAL='subl'
+export GIT_EDITOR="subl --wait --new-window"
+
 path=(
     '/sbin:/usr/bin:/usr/sbin:/usr/local/bin'
     "${HOME}/bin"
     "/usr/local/bin/ignition"
-    "${HOME}/.rvm/bin"
-    "/usr/local/bin/jdk"
 )
 
 PATH="/bin"
@@ -28,16 +34,9 @@ done
 export PATH
 unset path
 
-export TERM='xterm-256color'
-export EDITOR='vim'
-export VISUAL='subl'
-export GIT_EDITOR="subl --wait --new-window"
-
-if [ -n "$BASH_VERSION" ]; then
-	[[ -f ~/.bashrc ]] && source ~/.bashrc
+if [[ -z $DISPLAY ]]; then
+	if [[ $XDG_VTNR = 1 || $XDG_VTNR = 2 ]]; then
+		exec startx
+	fi
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-
-export PATH="$PATH:/usr/local/bin/ignition"
