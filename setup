@@ -1,19 +1,12 @@
 #!/bin/bash
 
-while [[ -n $1 ]]; do
-    case "${1#-}" in
-        f) FORCE=true;;
-        *) echo "Usage: ${0##*/} [-f]"; exit 1;;
-    esac
-    shift
-done
-
-
 while IFS= read -r dotfile; do
 	dest="${HOME}/${dotfile##*/}"
-	[[ ! -e $dest && -h $dest ]] && rm -f "$dest"  # Remove broken symlink.
-	if [[ -e $dest && ! -h $dest ]]; then
-		[[ -n $FORCE ]] && rm -f "$dest"  # Remove regular file.
+	if [[ ! -e $dest && -h $dest ]]; then
+		rm -f "$dest"  # Remove broken symlink.
+	elif [[ -e $dest && ! -h $dest ]]; then
+		rm -i "$dest"  # Remove regular file.
+	elif [[ -e $dest && -h $dest ]]; then
 		continue
 	fi
 	ln -s "$dotfile" "$dest" || exit "$?"
