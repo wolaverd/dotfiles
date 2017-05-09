@@ -1,0 +1,55 @@
+# Git
+grm() { git rm --cached "$(git status --porcelain | awk '$1 ~ /D/ {print $2}')"; }
+gpush() { git add ./* && git commit -m 'wip' && git push -u origin master; }
+gclone() { git clone ssh://bit:neeto/${1}.git; }
+
+# Package manager
+upg() { sudo apt-get update && sudo apt-get upgrade; }
+
+# Systemd
+jctl() { sudo journalctl --all --quiet --boot=-0; }
+sctl() { sudo systemctl "$@"; }
+sctlfi() { sudo systemctl list-unit-files --all; }
+start() { sudo systemctl start "$@"; }
+stop() { sudo systemctl stop "$@"; }
+restart() { sudo systemctl restart "$@"; }
+status() { sudo systemctl status "$@"; }
+enabled() { sudo systemctl enable "$@"; }
+disabled() { sudo systemctl disable "$@"; }
+Start() { sudo systemctl start "$@"; sudo systemctl status "$@"; }
+Stop() { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
+Restart() { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
+Enable() { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+Disable() { sudo systemctl disable "$@"; sudo systemctl status "$@"; }
+ustart() { systemctl --user start "$@"; }
+ustop() { systemctl --user stop "$@"; }
+ustatus() { systemctl --user status "$@"; }
+uenabled() { systemctl --user enable "$@"; }
+udisabled() { systemctl --user disable "$@"; }
+
+# Misc
+lefix() { sed -i 's/\r//g' "$@"; }
+mcd() { mkdir -pv "$1" && cd "$1"; }
+mantoc() { local manpage="$1"; man "$manpage" | cat | grep -o '^[A-Z][A-Z -]\+'; }
+mntext() { sudo mount "$1" "$2" --options user,rw,umask=111,dmask=000; }
+topcmd() {
+	history | \
+	awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | \
+	grep -v "./" | \
+	column -c3 -s " " -t | \
+	sort -nr | nl |  head -n10
+}
+
+tarx() { local archive="$1"; tar xaf "$archive" && rm "$archive" && cd "${archive%%.tar*}"; }
+
+mkusb() {
+	local media="$1" device="$2"
+	read -r -p "mkusb: Copy ${media} to ${device}? y|n: " ans
+	[[ $ans != 'y' ]] && return 0
+	sudo dd bs=4M if="$media" of="$device" status=progress && sync
+}
+
+getmem() { free -m | grep Mem | awk '{print $4}'; }
+lsobj() { sudo awk '{printf "%5d MB %s\n", $3*$4/(1024*1024), $1}' /proc/slabinfo | sort -n; }
+rlog() { awk '$1 !~ /^(DEBUG|INFO|STATUS)/ {print}' "$1"; }
+
