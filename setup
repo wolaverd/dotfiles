@@ -1,26 +1,20 @@
 #!/bin/bash
 
-[[ -f './setup-lib.sh' ]] && source './setup-lib.sh'
-
-declare -a dotfiles
-
-case "$SHELL" in
-	*bash)
-		dotfiles+=(./dotfiles/.{bashrc,bash_profile})
-		;;
-	*zsh)
-		dotfiles+=(./dotfiles/.{zshrc,zprofile,zshenv})
-		;;
-	*)
-		exit 1
-		;;
-esac
-
-dotfiles+=(./dotfiles/{.aliases,.functions,vimrc})
-
-for dotfile in "${dotfiles[@]}"; do
-	source_path=$(realpath "$dotfile")
-	link_dotfile "$source_path" 2>/dev/null
+while [[ -n $1 ]]; do
+    case "${1#-}" in
+        f) FORCE=true;;
+        *) echo "Usage: ${0##*/} [-f]"; exit 1;;
+    esac
+    shift
 done
-unset dotfiles
 
+
+while IFS= read -r dotfile; do
+	dest="${HOME}/${dotfile##*/}"
+	[[ ! -e $dest && -h $dest ]] && rm -f "$dest"  # Remove broken symlink.
+	if [[ -e $dest && ! -h $dest ]]; then
+		[[ -n $FORCE ]] && rm -f "$dest"  # Remove regular file.
+		continue
+	fi
+	ln -s "$dotfile" "$dest" || exit "$?"
+done < <(find . -maxdepth 1 -type f ! -regex '^\.\/\(\.git\|setup\).*' -exec readlink -f {} \;)
