@@ -1,11 +1,11 @@
 #!/bin/bash
 
 repo="${0%/*}"
-basedir="$HOME"
 
 while IFS= read -r dotfile; do
 	name="${dotfile##*/}"
-
+	basedir="$HOME"
+	
 	[[ $name =~ ^vim ]] && basedir="${basedir}/.vim"
 	
 	[[ ! -d $basedir ]] && {

@@ -43,13 +43,12 @@ topcmd() {
 tarx() { local archive="$1"; tar xaf "$archive" && rm "$archive" && cd "${archive%%.tar*}"; }
 
 mkusb() {
-	local media="$1" device="$2"
-	read -r -p "mkusb: Copy ${media} to ${device}? y|n: " ans
-	[[ $ans != 'y' ]] && return 0
-	sudo dd bs=4M if="$media" of="$device" status=progress && sync
+	read -r -p "mkusb: Copy ${1} to ${2}? y|n: " ans
+	[[ $ans = 'y' ]] && sudo dd bs=4M if="$1" of="$2" status=progress && sync
 }
 
 getmem() { free -m | grep Mem | awk '{print $4}'; }
 lsobj() { sudo awk '{printf "%5d MB %s\n", $3*$4/(1024*1024), $1}' /proc/slabinfo | sort -n; }
 rlog() { awk '$1 !~ /^(DEBUG|INFO|STATUS)/ {print}' "$1"; }
 
+gc() { gcc -std=c11 -Wall -Wextra -g -o "${1%.*}" "$1"; }
