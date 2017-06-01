@@ -1,0 +1,12 @@
+EDITOR='vim'
+VISUAL='subl'
+GIT_EDITOR="subl --wait --new-window"
+
+PYTHONDONTWRITEBYTECODE=1
+
+PGDATABASE=wms801
+
+JAVA_HOME=/usr/lib/jvm/java-8-oracle
+JDK_HOME="$JAVA_HOME"
+JRE_HOME="${JAVA_HOME}/jre"
+JAVA_TOOL_OPTIONS=-Dfile.encoding="UTF-8"

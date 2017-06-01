@@ -38,7 +38,3 @@ fi
 [[ -f ~/.functions ]] && source ~/.functions
 [[ -f ~/.aliases ]] && source ~/.aliases
 
-eval `keychain --eval --agents ssh id_rsa`
-
-# Python
-export PYTHONDONTWRITEBYTECODE=1
