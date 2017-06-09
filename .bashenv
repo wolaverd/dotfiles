@@ -3,6 +3,8 @@ VISUAL='subl'
 GIT_EDITOR="subl --wait --new-window"
 
 PYTHONDONTWRITEBYTECODE=1
+JYTHONHOME=/usr/share/jython
+JYTHON_HOME="$JYTHONHOME"
 
 PGDATABASE=wms801
 

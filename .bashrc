@@ -37,4 +37,5 @@ fi
 
 [[ -f ~/.functions ]] && source ~/.functions
 [[ -f ~/.aliases ]] && source ~/.aliases
+[[ -f ~/.bashenv ]] && source ~/.bashenv
 
