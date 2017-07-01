@@ -1,6 +1,6 @@
 # Git
 grm() { git rm --cached "$(git status --porcelain | awk '$1 ~ /D/ {print $2}')"; }
-gpush() { git add ./* && git commit --message='wip' && git push -set-upstream origin master; }
+gpush() { git add ./* && git commit --message='wip' && git push --set-upstream origin master; }
 gclone() { git clone "ssh://${1}:neeto/${2}.git"; }
 
 # Package manager
