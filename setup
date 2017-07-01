@@ -3,15 +3,11 @@
 while IFS= read -u 9 -r dotfile; do
 	name="${dotfile##*/}"
 	basedir="$HOME"
-	
-	[[ $name =~ ^vim ]] && basedir="${basedir}/.vim"
-	
-	[[ ! -d $basedir ]] && {
-		mkdir -p "$basedir" || exit 1
-	}
 
-	dest="${basedir}/${dotfile##*/}"
+	[[ $name =~ ^vim ]] && basedir="${basedir}/.vim"
+	[[ ! -d $basedir ]] && { mkdir --parents "$basedir" || exit 1; }
 	
+	dest="${basedir}/${dotfile##*/}"
 	if [[ ! -e $dest && -h $dest ]]; then
 		rm -f "$dest"  # Remove broken symlink.
 	elif [[ -e $dest && ! -h $dest ]]; then

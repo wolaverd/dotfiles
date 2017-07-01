@@ -1,15 +1,15 @@
 # Git
 grm() { git rm --cached "$(git status --porcelain | awk '$1 ~ /D/ {print $2}')"; }
-gpush() { git add ./* && git commit -m 'wip' && git push -u origin master; }
-gclone() { git clone ssh://bit:neeto/${1}.git; }
+gpush() { git add ./* && git commit --message='wip' && git push -set-upstream origin master; }
+gclone() { git clone "ssh://${1}:neeto/${2}.git"; }
 
 # Package manager
 upg() { sudo apt-get update && sudo apt-get upgrade; }
 
 # Systemd
-jctl() { sudo journalctl --all --quiet --boot=-0; }
+jctl() { sudo journalctl --all --quiet --catalog --pager-end; }
 sctl() { sudo systemctl "$@"; }
-sctlfi() { sudo systemctl list-unit-files --all; }
+sctlfi() { systemctl list-unit-files --all; }
 start() { sudo systemctl start "$@"; }
 stop() { sudo systemctl stop "$@"; }
 restart() { sudo systemctl restart "$@"; }
@@ -28,27 +28,17 @@ uenabled() { systemctl --user enable "$@"; }
 udisabled() { systemctl --user disable "$@"; }
 
 # Misc
-lefix() { sed -i 's/\r//g' "$@"; }
-mcd() { mkdir -pv "$1" && cd "$1"; }
-mantoc() { local manpage="$1"; man "$manpage" | cat | grep -o '^[A-Z][A-Z -]\+'; }
+lefix() { sed --in-place 's/\r//g' "$@"; }
+mcd() { mkdir --parents "$1" && cd "$1"; }
 mntext() { sudo mount "$1" "$2" --options user,rw,umask=111,dmask=000; }
-topcmd() {
-	history | \
-	awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | \
-	grep -v "./" | \
-	column -c3 -s " " -t | \
-	sort -nr | nl |  head -n10
-}
-
-tarx() { local archive="$1"; tar xaf "$archive" && rm "$archive" && cd "${archive%%.tar*}"; }
+tarx() { local archive="$1"; tar xaf "$archive" && rm "$archive"; }
+tarc() { local archive="${1:-tarchive}"; tar caf "$archive" --remove-files $2; }
+getmem() { free --mega | grep Mem | awk '{print $4}'; }
+lsobj() { sudo awk '{printf "%5d MB %s\n", $3*$4/(1024*1024), $1}' /proc/slabinfo | sort --numeric-sort; }
+rlog() { awk '$1 !~ /^(DEBUG|INFO|STATUS)/ {print}' "$1"; }
+gc() { gcc -std=c11 -Wall -Wextra -g -o "${1%.*}" "$1"; }
 
 mkusb() {
 	read -r -p "mkusb: Copy ${1} to ${2}? y|n: " ans
-	[[ $ans = 'y' ]] && sudo dd bs=4M if="$1" of="$2" status=progress && sync
+	[[ $ans = 'y' && "${2%?}" != '/dev/sda' ]] && sudo dd bs=4M if="$1" of="$2" status=progress && sync
 }
-
-getmem() { free -m | grep Mem | awk '{print $4}'; }
-lsobj() { sudo awk '{printf "%5d MB %s\n", $3*$4/(1024*1024), $1}' /proc/slabinfo | sort -n; }
-rlog() { awk '$1 !~ /^(DEBUG|INFO|STATUS)/ {print}' "$1"; }
-
-gc() { gcc -std=c11 -Wall -Wextra -g -o "${1%.*}" "$1"; }

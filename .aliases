@@ -3,30 +3,21 @@ alias eb="vim ~/.${SHELL##*/}rc"
 alias rb="source ~/.${SHELL##*/}rc"
 
 # Misc
-alias grep='grep --color=never'
-alias la='ls -A'
-alias l='ls -CF'
-alias ls='ls -F --color=never --group-directories-first'
-alias ll='ls -AlhFt --color=never'
-alias dfind='find ./ -maxdepth 1 -type d \! -regex '^\.\/$''
-alias ffind='find ./ -maxdepth 1 -type f'
+alias la='ls --almost-all'
+alias l='ls -C --file-type'
+alias ls='ls --file-type --color=auto --group-directories-first'
+alias ll='ls -t -l --almost-all --human-readable --file-type --color=auto'
 alias cls='clear'
 alias xx='exit'
-alias cpa='cp -a'
+alias cpa='cp --archive'
+alias grep='grep --color=auto'
 alias shred='shred --verbose --force --iterations=1 --remove --zero'
 
 # Network
-alias ssp='sudo ss -tulpn'
+alias ssp='ss --tcp --udp --listening --processes --numeric'
 
 # Editor
 alias v='vim'
-
-# Git
-alias gs='git status --short --untracked-files=no'
-alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
-alias glpac="git log --graph --pretty='tformat:%C(yellow)%h{%C(green)%ar{%C(bold blue)%an{%C(red)%d%C(reset) %s' $* | column -t -s '{' | less -FXRS"
-alias glll='git log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat'
-alias glra="git log --graph --abbrev-commit --date=relative -20 --all --pretty='format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
 
 # Python
 alias ipy='ipython --classic'
@@ -37,4 +28,12 @@ alias aptg='sudo apt-get'
 alias reconf='sudo dpkg --configure -a'
 
 # Ignition
-alias gwstart='ignition.sh start'
+alias ig='ignition.sh'
+
+# Git
+alias gs='git status --short --untracked-files=no'
+alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative"
+alias glpac="git log --graph --pretty='tformat:%C(yellow)%h{%C(green)%ar{%C(bold blue)%an{%C(red)%d%C(reset) %s' $* | column -t -s '{' | less -FXRS"
+alias glll='git log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat'
+alias glra="git log --graph --abbrev-commit --date=relative -20 --all --pretty='format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
+

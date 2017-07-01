@@ -12,7 +12,7 @@ fi
 
 path=('/sbin:/usr/bin:/usr/sbin:/usr/local/bin'
       "${HOME}/bin"
-      "/usr/local/bin/ignition")
+      '/usr/local/ignition')
 
 export PATH="/bin"
 for i in "${path[@]}"; do
@@ -20,4 +20,10 @@ for i in "${path[@]}"; do
 done
 unset path
 export PATH
+
+if [[ $(dpkg-query --show --show-format='${Status}' keychain 2>/dev/null | \
+		grep -c 'ok installed') -eq 0 ]]
+then
+	eval `keychain --eval --agents ssh id_rsa`
+fi
 
