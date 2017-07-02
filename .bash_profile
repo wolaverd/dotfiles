@@ -21,9 +21,6 @@ done
 unset path
 export PATH
 
-if [[ $(dpkg-query --show --show-format='${Status}' keychain 2>/dev/null | \
-		grep -c 'ok installed') -eq 0 ]]
-then
-	eval `keychain --eval --agents ssh id_rsa`
+if [[ $(dpkg-query --show 'keychain' &>/dev/null) -eq 0 ]]; then
+    eval "$(keychain --eval --agents ssh id_rsa)"
 fi
-
