@@ -1,6 +1,7 @@
 # Dotfiles
 alias eb="vim ~/.${SHELL##*/}rc"
 alias rb="source ~/.${SHELL##*/}rc"
+alias rp='if [[ -f ~/.bash_profile ]]; then source ~/.bash_profile; else source ~/.profile; fi'
 
 # Misc
 alias la='ls --almost-all'
@@ -14,13 +15,16 @@ alias grep='grep --color=auto'
 alias shred='shred --verbose --force --iterations=1 --remove --zero'
 
 # Network
-alias ssp='ss --tcp --udp --listening --processes --numeric'
+alias ss='ss --tcp --udp --listening --processes --numeric'
 
 # Editor
 alias v='vim'
 
 # Python
 alias ipy='ipython --classic'
+
+# db
+alias psql='PAGER="less -SF" psql'
 
 # Package Manager
 alias aptc='apt-cache'

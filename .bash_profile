@@ -1,22 +1,36 @@
-pathCheck() {
-    while read -r path; do
-        [[ $1 = $path ]] && return 1
-    done < <(sed 's/:/\n/g' <<< "$PATH")
+pathcheck() {
+	IFS_backup="$IFS"
+	IFS=':'
+	for pathdir in $PATH; do
+        if [[ $1 = $pathdir ]]; then
+			IFS="$IFS_backup"
+			return 1
+		fi
+    done
+	IFS="$IFS_backup"
     return 0
 }
-
 
 if [ -n "$BASH_VERSION" ]; then
     [[ -f ~/.bashrc ]] && source ~/.bashrc
 fi
 
-path=('/sbin:/usr/bin:/usr/sbin:/usr/local/bin'
-      "${HOME}/bin"
-      '/usr/local/ignition')
+path=(
+	/sbin
+	/usr/bin
+	/usr/sbin
+	/usr/local/bin
+	"${HOME}/bin"
+	"${HOME}/.local/bin"
+	/usr/local/ignition
+)
 
-export PATH="/bin"
+PATH="/bin"
 for i in "${path[@]}"; do
-    pathCheck "$i" && PATH="${PATH}:${i}"
+	if [[ -d $i ]]; then
+		pathcheck "$i" || continue
+		PATH="${PATH}:${i}"
+	fi
 done
 unset path
 export PATH

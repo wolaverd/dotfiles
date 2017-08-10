@@ -1,6 +1,6 @@
 # Git
-grm() { git rm --cached "$(git status --porcelain | awk '$1 ~ /D/ {print $2}')"; }
-gpush() { git add ./* && git commit --message='wip' && git push --set-upstream origin master; }
+grm() { git diff --name-only --diff-filter=D -z | xargs --null git rm --cached; }
+gpush() { git push --set-upstream origin master; }
 gclone() { git clone ${1}:neeto/${2}.git; }
 
 # Package manager
@@ -10,35 +10,28 @@ upg() { sudo apt-get update && sudo apt-get upgrade; }
 jctl() { sudo journalctl --all --quiet --catalog --pager-end; }
 sctl() { sudo systemctl "$@"; }
 sctlfi() { systemctl list-unit-files --all; }
-start() { sudo systemctl start "$@"; }
-stop() { sudo systemctl stop "$@"; }
-restart() { sudo systemctl restart "$@"; }
-status() { sudo systemctl status "$@"; }
-enabled() { sudo systemctl enable "$@"; }
-disabled() { sudo systemctl disable "$@"; }
-Start() { sudo systemctl start "$@"; sudo systemctl status "$@"; }
-Stop() { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
-Restart() { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
-Enable() { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
-Disable() { sudo systemctl disable "$@"; sudo systemctl status "$@"; }
-ustart() { systemctl --user start "$@"; }
-ustop() { systemctl --user stop "$@"; }
+sedit() { sudo systemctl edit --full "$@"; }
+
+sstatus() { sudo systemctl status "$@"; }
+sstart() { sudo systemctl start "$@"; sudo systemctl status "$@"; }
+sstop() { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
+srestart() { sudo systemctl restart "$@"; sudo systemctl status "$@"; }
+senable() { sudo systemctl enable "$@"; sudo systemctl status "$@"; }
+sdisable() { sudo systemctl disable "$@"; sudo systemctl status "$@"; }
+ustart() { systemctl --user start "$@"; systemctl --user status "$@"; }
+urestart() { systemctl --user restart "$@"; systemctl --user status "$@"; }
+ustop() { systemctl --user stop "$@"; systemctl --user status "$@"; }
+uenabled() { systemctl --user enable "$@"; systemctl --user status "$@"; }
+udisabled() { systemctl --user disable "$@"; systemctl --user status "$@"; }
 ustatus() { systemctl --user status "$@"; }
-uenabled() { systemctl --user enable "$@"; }
-udisabled() { systemctl --user disable "$@"; }
 
 # Misc
 lefix() { sed --in-place 's/\r//g' "$@"; }
 mcd() { mkdir --parents "$1" && cd "$1"; }
 mntext() { sudo mount "$1" "$2" --options user,rw,umask=111,dmask=000; }
-tarx() { local archive="$1"; tar xaf "$archive" && rm "$archive"; }
-tarc() { local archive="${1:-tarchive}"; tar caf "$archive" --remove-files $2; }
+tarx() { tar xaf "$1" && rm "$1"; }
+tarc() { tar caf "${1:-tarchive}" --remove-files "$2"; }
 getmem() { free --mega | grep Mem | awk '{print $4}'; }
 lsobj() { sudo awk '{printf "%5d MB %s\n", $3*$4/(1024*1024), $1}' /proc/slabinfo | sort --numeric-sort; }
 rlog() { awk '$1 !~ /^(DEBUG|INFO|STATUS)/ {print}' "$1"; }
 gc() { gcc -std=c11 -Wall -Wextra -g -o "${1%.*}" "$1"; }
-
-mkusb() {
-	read -r -p "mkusb: Copy ${1} to ${2}? y|n: " ans
-	[[ $ans = 'y' && "${2%?}" != '/dev/sda' ]] && sudo dd bs=4M if="$1" of="$2" status=progress && sync
-}

@@ -198,7 +198,10 @@ rerun.txt
 # Python #
 *.pyc
 
-# Custom #
+# Sublime #
+*.sublime*
+
+# Includes #
 !.bash*
 !.ssh
 !.config

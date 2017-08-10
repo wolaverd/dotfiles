@@ -35,7 +35,6 @@ let g:NERDTreeDirArrowCollapsible = '▾'
 
 " Other
 Plugin 'pythoncomplete'
-Plugin 'taglist.vim'
 
 call vundle#end()
 
