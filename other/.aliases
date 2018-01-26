@@ -1,3 +1,6 @@
+# Editor
+#alias vim='nvim'
+
 # Dotfiles
 alias eb="vim ~/.${SHELL##*/}rc"
 alias rb="source ~/.${SHELL##*/}rc"
@@ -17,11 +20,8 @@ alias shred='shred --verbose --force --iterations=1 --remove --zero'
 # Network
 alias ss='ss --tcp --udp --listening --processes --numeric'
 
-# Editor
-alias v='vim'
-
 # Python
-alias ipy='ipython --classic'
+alias ipy='ipython --profile=primary'
 
 # db
 alias psql='PAGER="less -SF" psql'
@@ -41,3 +41,11 @@ alias glpac="git log --graph --pretty='tformat:%C(yellow)%h{%C(green)%ar{%C(bold
 alias glll='git log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat'
 alias glra="git log --graph --abbrev-commit --date=relative -20 --all --pretty='format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset'"
 
+# lazy..
+alias kc_sh='source ~/.keychain/dorado-sh'
+alias kc='keychain --agents ssh id_rsa'
+alias skc='kc && kc_sh'
+alias gc='gcc -std=gnu99 -Wall -Wextra -g3'
+
+# ssh
+alias gcmnt='sshfs -o ServerAliveInterval=15 moxahome:/home/admin1/getcycle /home/jwolaver/Projects/getcycle'

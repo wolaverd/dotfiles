@@ -20,9 +20,10 @@ path=(
 	/usr/bin
 	/usr/sbin
 	/usr/local/bin
+	/usr/local/sbin
 	"${HOME}/bin"
 	"${HOME}/.local/bin"
-	/usr/local/ignition
+	/opt/android-sdk/platform-tools
 )
 
 PATH="/bin"
@@ -32,9 +33,6 @@ for i in "${path[@]}"; do
 		PATH="${PATH}:${i}"
 	fi
 done
+
 unset path
 export PATH
-
-if [[ $(dpkg-query --show 'keychain' &>/dev/null) -eq 0 ]]; then
-    eval "$(keychain --eval --agents ssh id_rsa)"
-fi
