@@ -1,21 +1,35 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-while IFS= read -u 9 -r dotfile; do
-	name="${dotfile##*/}"
+# Create symlinks in the home directory for each dotfile in the repo.
+
+shell="${SHELL##*/}"
+
+while IFS= read -u 9 -r to_path; do
+	name="${to_path##*/}"
+	parent="$(basename $(dirname "$to_path"))"
 	basedir="$HOME"
 
-	[[ $name =~ ^vim ]] && basedir="${basedir}/.vim"
-	[[ ! -d $basedir ]] && { mkdir --parents "$basedir" || exit 1; }
-	
-	dest="${basedir}/${dotfile##*/}"
-	if [[ ! -e $dest && -h $dest ]]; then
-		rm -f "$dest"  # Remove broken symlink.
-	elif [[ -e $dest && ! -h $dest ]]; then
-		rm -i "$dest"  # Remove regular file.
-	elif [[ -e $dest && -h $dest ]]; then
-		continue
+	if [[ $name =~ ^vim ]]; then
+		basedir="${basedir}/.vim"
 	fi
 
-	ln -s "$dotfile" "$dest" || exit "$?"
-done 9< <(find "${0%/*}" -maxdepth 1 -type f \! -name 'setup' \! -name '?git*' \
+	if [[ ! -d $basedir ]]; then
+		mkdir --parents "$basedir" || exit 1
+	fi
+	
+	from_path="${basedir}/${to_path##*/}"
+
+	if [[ ! -e $from_path && -h $from_path ]]; then
+		rm -f "$from_path"  # Remove broken symlink.
+	elif [[ -e $from_path && ! -h $from_path ]]; then
+		rm -i "$from_path"  # Remove regular file.
+	elif [[ -e $from_path && -h $from_path ]]; then
+		continue	        # Pre-existing symlink.
+	fi
+
+	# install if file is in the user's shell dir or file is shell agnostic
+	if [[ $shell = $parent || $parent = other ]]; then
+		ln -s "$to_path" "$from_path" || exit "$?"
+	fi
+done 9< <(find {bash,zsh,other} -maxdepth 1 -type f \! -name 'setup' \! -name '?git*' \
 		  				 -exec readlink -f {} \; 2>/dev/null)
