@@ -1,20 +1,6 @@
-if [[ -e /etc/os-release ]]; then
-	osrel=/etc/os-release
-elif [[ -e /usr/lib/os-release ]]; then
-	osrel=/usr/lib/os-release
-fi
-
+# Pick the correct package manager to use in the upg function.
 if [[ -n $osrel ]]; then
 	distro="$(cat "$osrel" | awk -F '=' '$1 == "ID" {print $2}')"
-fi
-
-# Git
-function grm { git diff --name-only --diff-filter=D -z | xargs --null git rm --cached; }
-function gpush { git push --set-upstream origin master; }
-function gclone { git clone ${1}:neeto/${2}.git; }
-
-# Package manager
-if [[ -n $distro ]]; then
 	case "$distro" in
 		arch )
 			function upg { sudo pacman -Syyu; }
@@ -22,15 +8,22 @@ if [[ -n $distro ]]; then
 		ubuntu|debian )
 			function upg { sudo apt-get update && sudo apt-get upgrade; }
 			;;
+		centos )
+			function upg { sudo yum update && sudo yum upgrade; }
+			;;
 	esac
 fi
+
+# Git
+function grm { git diff --name-only --diff-filter=D -z | xargs --null git rm --cached; }
+function gpush { git push --set-upstream origin master; }
+function gclone { git clone ${1}:neeto/${2}.git; }
 
 # Systemd
 function jctl { sudo journalctl --all --quiet --catalog --pager-end; }
 function sctl { sudo systemctl "$@"; }
 function sctlfi { systemctl list-unit-files --all; }
 function sedit { sudo systemctl edit --full "$@"; }
-
 function sstatus { sudo systemctl status "$@"; }
 function sstart { sudo systemctl start "$@"; sudo systemctl status "$@"; }
 function sstop { sudo systemctl stop "$@"; sudo systemctl status "$@"; }
