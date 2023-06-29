@@ -49,3 +49,6 @@ alias gc='gcc -std=gnu99 -Wall -Wextra -g3'
 
 # ssh
 alias gcmnt='sshfs -o ServerAliveInterval=15 moxahome:/home/admin1/getcycle /home/jwolaver/Projects/getcycle'
+
+# powercode
+alias mysqlp='mysql -u root -p powernoc'
