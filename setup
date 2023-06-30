@@ -31,5 +31,5 @@ while IFS= read -u 9 -r to_path; do
 	if [[ $shell = $parent || $parent = other ]]; then
 		ln -s "$to_path" "$from_path" || exit "$?"
 	fi
-done 9< <(find {bash,zsh,other} -maxdepth 1 -type f \! -name 'setup' \! -name '?git*' \
+done 9< <(find "$(dirname "$0")"/{bash,zsh,other} -maxdepth 1 -type f \! -name 'setup' \! -name '?git*' \
 		  				 -exec readlink -f {} \; 2>/dev/null)
