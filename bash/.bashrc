@@ -13,7 +13,7 @@ unset builtins
 
 filesToSource=(/usr/share/bash-completion/bash_completion
 	   		   /etc/bash_completion
-	   		   ~/.{functions,aliases,bashenv,prompt})
+	   		   ~/.{functions,aliases,bash_env,prompt})
 
 sourceFile() { [[ -f $1 ]] && source "$1"; }
 
