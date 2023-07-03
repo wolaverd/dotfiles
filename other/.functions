@@ -1,3 +1,9 @@
+if [[ -e /etc/os-release ]]; then
+	osrel=/etc/os-release
+elif [[ -e /usr/lib/os-release ]]; then
+	osrel=/usr/lib/os-release
+fi
+
 # Pick the correct package manager to use in the upg function.
 if [[ -n $osrel ]]; then
 	distro="$(cat "$osrel" | awk -F '=' '$1 == "ID" {print $2}')"
