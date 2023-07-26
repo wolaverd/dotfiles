@@ -4,9 +4,9 @@
 
 shell="${SHELL##*/}"
 
-while IFS= read -u 9 -r to_path; do
-	name="${to_path##*/}"
-	parent="$(basename $(dirname "$to_path"))"
+while IFS= read -u 9 -r from_path; do
+	name="${from_path##*/}"
+	parent="$(basename $(dirname "$from_path"))"
 	basedir="$HOME"
 
 	if [[ $name =~ ^vim ]]; then
@@ -17,19 +17,19 @@ while IFS= read -u 9 -r to_path; do
 		mkdir --parents "$basedir" || exit 1
 	fi
 	
-	from_path="${basedir}/${to_path##*/}"
+	to_path="${basedir}/${from_path##*/}"
 
-	if [[ ! -e $from_path && -h $from_path ]]; then
-		rm -f "$from_path"  # Remove broken symlink.
-	elif [[ -e $from_path && ! -h $from_path ]]; then
-		rm -i "$from_path"  # Remove regular file.
-	elif [[ -e $from_path && -h $from_path ]]; then
+	if [[ ! -e $to_path && -h $to_path ]]; then
+		rm -f "$to_path"  # Remove broken symlink.
+	elif [[ -e $to_path && ! -h $to_path ]]; then
+		rm -i "$to_path"  # Remove regular file.
+	elif [[ -e $to_path && -h $to_path ]]; then
 		continue	        # Pre-existing symlink.
 	fi
 
 	# install if file is in the user's shell dir or file is shell agnostic
 	if [[ $shell = $parent || $parent = other ]]; then
-		ln -s "$to_path" "$from_path" || exit "$?"
+		ln -s "$from_path" "$to_path" || exit "$?"
 	fi
 done 9< <(find "$(dirname "$0")"/{bash,zsh,other} -maxdepth 1 -type f \! -name 'setup' \! -name '?git*' \
 		  				 -exec readlink -f {} \; 2>/dev/null)
