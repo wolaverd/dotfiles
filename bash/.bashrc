@@ -15,10 +15,11 @@ filesToSource=(/usr/share/bash-completion/bash_completion
 	   		   /etc/bash_completion
 	   		   ~/.{functions,aliases,bash_env})
 
-sourceFile() { [[ -f $1 || -h $1 ]] && \
-	echo "Including code from ${1}"; \
-	source "$1"; }
+sourceFile() {
+	[[ -f $1 || -h $1 ]] && source "$1"
+}
 
 for fileToSource in "${filesToSource[@]}"; do
 	sourceFile "$fileToSource"
 done
+
